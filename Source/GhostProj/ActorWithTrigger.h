@@ -26,8 +26,12 @@ protected:
 
 	class UBoxComponent* BoxComp;
 
+	UPROPERTY()
+		USceneComponent* Root;
+
 	UPROPERTY(EditDefaultsOnly)
 		class UStaticMeshComponent* StaticMesh;
+	
 	
 	UFUNCTION()
 		void OnBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {

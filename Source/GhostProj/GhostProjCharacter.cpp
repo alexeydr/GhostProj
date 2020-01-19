@@ -27,6 +27,7 @@ AGhostProjCharacter::AGhostProjCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
@@ -45,6 +46,7 @@ AGhostProjCharacter::AGhostProjCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	HeroTime = CreateDefaultSubobject<UTimeComp>(FName("TimeComp"));
 	Sleepiness = Thirst = MentalCondition = Hunger = 50;
  	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -78,6 +80,13 @@ void AGhostProjCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGhostProjCharacter::OnResetVR);
+}
+
+void AGhostProjCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	UpdateTime(HeroTime->GetTime());
 }
 
 

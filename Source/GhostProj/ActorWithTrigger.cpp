@@ -12,10 +12,13 @@ AActorWithTrigger::AActorWithTrigger()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	Root = CreateDefaultSubobject<USceneComponent>(FName("Root"));
+	RootComponent = Root;
 	BoxComp = CreateDefaultSubobject<UBoxComponent>(FName("BoxComp"));
-	BoxComp->AttachTo(GetRootComponent());
+	BoxComp->AttachTo(Root);
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("MeshComp"));
-	StaticMesh->AttachTo(GetRootComponent());
+	StaticMesh->AttachTo(BoxComp);
+
 }
 
 // Called when the game starts or when spawned

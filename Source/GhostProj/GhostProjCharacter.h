@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TimeComp.h"
 #include "GhostProjCharacter.generated.h"
 
 
@@ -44,10 +45,15 @@ public:
 	float Money;
 
 	class AActorWithTrigger* InteractActor;
-
+	
+	UFUNCTION(BlueprintImplementableEvent)
+		void UpdateTime(FMyDateTime NewTime);
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void UpdateUI();
+
+	UPROPERTY()
+	UTimeComp* HeroTime;
 
 	
 
@@ -98,5 +104,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	virtual void Tick(float DeltaTime) override;
 };
 
