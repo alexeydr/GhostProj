@@ -20,10 +20,20 @@ struct FFish
 	UPROPERTY(BlueprintReadWrite, Category = "Fish")
 		int Cost;
 
-	FFish(const FString &N,const int C)
+	FFish(const FString &N = "None",const int C = 0)
 	{
 		FishName = N;
 		Cost = C;
+	}
+
+	FORCEINLINE bool operator ==(const FFish &Fish) const
+	{
+		if (Fish.FishName == Fish.FishName)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 };
