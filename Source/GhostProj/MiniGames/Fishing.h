@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ActorWithTrigger.h"
+#include "UI\FishingUserWidget.h"
 #include "Fishing.generated.h"
 
 /**
@@ -19,6 +20,7 @@ struct FFish
 		FString FishName;
 	UPROPERTY(BlueprintReadWrite, Category = "Fish")
 		int Cost;
+
 
 	FFish(const FString &N = "None",const int C = 0)
 	{
@@ -46,15 +48,57 @@ class GHOSTPROJ_API AFishing : public AActorWithTrigger
 	
 protected:
 
+	//Структуры данных
+
 	TArray<FString> FishNames = { "F","S","T" };
 
+	TArray<FString> UniqNames = { "UF","US","UT" };
+
 	TArray<FFish> Fishpond;
+
+	//Методы
+
+	UFUNCTION()
+	void StartFishing();
+
+	void SetSide();
+
+	UFUNCTION()
+	void CheckResult(bool Result, const FFish ResultFish);
+
+	void AfterFishing();
+
+	//Поля
+
+	bool bFishBite;
+
+	int32 SizeX;
+
+	APlayerController* PC;
+
+	//Ссылка на виджет
+	UFishingUserWidget* WidgetRef;
+
+	float BottomLine;
+
+	float TopLine;
 
 public:
 
 	AFishing();
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+		TSubclassOf<UFishingUserWidget> WidgetObj;
 	
-	FFish CreateFish(const int FishCost);
+	FORCEINLINE FFish CreateFish(const int FishCost = 0, const FString &UniqName = "") { 
+		if(UniqName.Len()==0) 
+			return FFish(FishNames[FMath::FRandRange(0, FishNames.Num() - 1)], FishCost);
+		else
+			return FFish(UniqName, FishCost);
+	};
 
 	void ActionOnInteract() override;
+	
+
+	virtual void Tick(float DeltaTime) override;
 };

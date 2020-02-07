@@ -8,7 +8,6 @@
 #include "GhostProjCharacter.generated.h"
 
 
-
 UCLASS(config=Game)
 class AGhostProjCharacter : public ACharacter
 {
