@@ -4,20 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "ActorWithTrigger.h"
+#include "Structs\ItemStruct.h"
 #include "InteractActor.generated.h"
 
 /**
  * 
  */
-UENUM()
-enum class EStats : uint8
-{
-	None 	UMETA(DisplayName = "None"),
-	Sleepiness 	UMETA(DisplayName = "Sleepiness"),
-	Hunger	UMETA(DisplayName = "Hunger"),
-	Thirst	UMETA(DisplayName = "Thirst")
-};
-
 UCLASS()
 class GHOSTPROJ_API AInteractActor : public AActorWithTrigger
 {
@@ -25,18 +17,35 @@ class GHOSTPROJ_API AInteractActor : public AActorWithTrigger
 
 protected:
 	
+	AInteractActor();
+
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void PlayEffect();
+		void CreateInteractWidget();
 
-public:
+	UFUNCTION(BlueprintImplementableEvent)
+		void PlayEffect();
+
 	UPROPERTY(EditAnywhere)
-		EStats TypeActor = EStats::None;
-	UPROPERTY(EditAnywhere)
-		float Value = 0;
+		FItemParams ItemParam;
+
 	UPROPERTY(EditAnywhere)
 		bool NeedDestroy = false;
-	
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+		void UseItem();
+
+	UFUNCTION(BlueprintCallable)
+		void TakeItem();
+		
+	UFUNCTION(BlueprintCallable)
+		FItemParams GetItemParam()
+	{
+		return ItemParam;
+	};
+
 	void ActionOnInteract() override;
 };

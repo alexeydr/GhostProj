@@ -42,6 +42,8 @@ protected:
 		OnBoxEndOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
 	};
 
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -51,4 +53,5 @@ public:
 	virtual void OnBoxEndOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex);
 
 	virtual void ActionOnInteract() {};
+
 };

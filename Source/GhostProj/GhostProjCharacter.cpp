@@ -59,6 +59,7 @@ void AGhostProjCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
+	PlayerInputComponent->BindAction("OpenInventory", IE_Pressed, this, &AGhostProjCharacter::OpenInventory);
 	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AGhostProjCharacter::Interaction);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
@@ -93,8 +94,18 @@ void AGhostProjCharacter::Tick(float DeltaTime)
 void AGhostProjCharacter::BeginPlay()
 {	
 	Super::BeginPlay();
-	ShowWidgetUI();
-	UpdateUI();
+	this->ShowWidgetUI();
+	this->UpdateUI();
+}
+
+void AGhostProjCharacter::OpenInventory()
+{
+	UE_LOG(LogTemp, Warning, TEXT("In inventory %i items"), Inventory.Num());
+	for (auto Elem:Inventory)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s item"), *Elem.GetName());
+	}
+	//this->ShowInventoryWidget(Inventory);
 }
 
 void AGhostProjCharacter::Interaction()

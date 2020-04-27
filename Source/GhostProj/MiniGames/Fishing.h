@@ -48,15 +48,12 @@ class GHOSTPROJ_API AFishing : public AActorWithTrigger
 	
 protected:
 
-	//Структуры данных
 
 	TArray<FString> FishNames = { "F","S","T" };
 
 	TArray<FString> UniqNames = { "UF","US","UT" };
 
 	TArray<FFish> Fishpond;
-
-	//Методы
 
 	UFUNCTION()
 	void StartFishing();
@@ -68,7 +65,6 @@ protected:
 
 	void AfterFishing();
 
-	//Поля
 
 	bool bFishBite;
 

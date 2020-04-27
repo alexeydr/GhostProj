@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "TimeComp.h"
+#include "Structs\ItemStruct.h"
 #include "GhostProjCharacter.generated.h"
 
 
@@ -55,14 +56,25 @@ public:
 	UTimeComp* HeroTime;
 
 	
+	FORCEINLINE void AddItemToInventory(FItemParams Item)
+	{
+		this->Inventory.Add(Item);
+	}
 
 protected:
+
+	TArray<FItemParams> Inventory;
 
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void ShowWidgetUI();
+	
+//	UFUNCTION(BlueprintImplementableEvent)
+	//	void ShowInventoryWidget(TArray<FItemParams> Items);
 
+	UFUNCTION()
+		void OpenInventory();
 
 	void Interaction();
 
