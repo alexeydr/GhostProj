@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "TimeComp.h"
+#include "UI\ElementInShop.h"
+#include "UI\ShopUserWidget.h"
 #include "Structs\ItemStruct.h"
 #include "GhostProjCharacter.generated.h"
 
@@ -61,7 +63,17 @@ public:
 		this->Inventory.Add(Item);
 	}
 
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+		TSubclassOf<UElementInShop> ClassElementInInventory;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+		TSubclassOf<UShopUserWidget> ClassInventory;
+
 protected:
+	
+	UShopUserWidget* InventoryWidget;
+
+	bool FlipFlop = false;
 
 	TArray<FItemParams> Inventory;
 
@@ -70,8 +82,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 		void ShowWidgetUI();
 	
-//	UFUNCTION(BlueprintImplementableEvent)
-	//	void ShowInventoryWidget(TArray<FItemParams> Items);
+
 
 	UFUNCTION()
 		void OpenInventory();

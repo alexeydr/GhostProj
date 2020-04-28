@@ -14,21 +14,21 @@ void AInteractActor::BeginPlay()
 	
 }
 
-void AInteractActor::UseItem()
+void AInteractActor::UseItem(FItemParams ParamForUse)
 {
 
 	this->PlayEffect();
 
-	switch (ItemParam.GetType())
+	switch (ParamForUse.GetType())
 	{
 	case EStats::Thirst:
-		MainChar->Thirst = FMath::Clamp(MainChar->Thirst + ItemParam.GetValue(), 1.f, 100.f);
+		MainChar->Thirst = FMath::Clamp(MainChar->Thirst + ParamForUse.GetValue(), 1.f, 100.f);
 		break;
 	case EStats::Hunger:
-		MainChar->Hunger = FMath::Clamp(MainChar->Hunger + ItemParam.GetValue(), 1.f, 100.f);
+		MainChar->Hunger = FMath::Clamp(MainChar->Hunger + ParamForUse.GetValue(), 1.f, 100.f);
 		break;
 	case EStats::Sleepiness:
-		MainChar->Sleepiness = FMath::Clamp(MainChar->Sleepiness + ItemParam.GetValue(), 1.f, 100.f);
+		MainChar->Sleepiness = FMath::Clamp(MainChar->Sleepiness + ParamForUse.GetValue(), 1.f, 100.f);
 		break;
 	}
 	MainChar->UpdateUI();

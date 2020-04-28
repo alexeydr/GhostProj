@@ -36,7 +36,7 @@ protected:
 public:
 
 	UFUNCTION(BlueprintCallable)
-		void UseItem();
+		void UseItem(FItemParams ParamForUse);
 
 	UFUNCTION(BlueprintCallable)
 		void TakeItem();

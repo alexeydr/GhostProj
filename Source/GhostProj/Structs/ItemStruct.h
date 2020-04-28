@@ -37,6 +37,8 @@ private:
 		class UTexture2D* Texture;
 	UPROPERTY(EditAnywhere)
 		UClass* ClassItem;
+	UPROPERTY(EditAnywhere)
+		int Price;
 public:
 	
 	FItemParams(FString NewName = "", EStats NewTypeActor = EStats::None, int NewValue = 0)
@@ -71,6 +73,11 @@ public:
 		this->ClassItem = NewClass;
 	}
 
+	void AddPrice(int Pr)
+	{
+		this->Price = Pr;
+	}
+
 	FString GetName()
 	{
 		return this->Name;
@@ -94,6 +101,11 @@ public:
 	UClass* GetClassItem()
 	{
 		return this->ClassItem;
+	}
+
+	int GetPrice()
+	{
+		return this->Price;
 	}
 
 };

@@ -48,4 +48,7 @@ public:
 		TSubclassOf<UShopUserWidget> WidgetObj;
 
 
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+		TSubclassOf<UElementInShop> ClassElementInShop;
+
 };

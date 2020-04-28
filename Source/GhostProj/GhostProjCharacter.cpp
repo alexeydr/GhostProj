@@ -3,6 +3,7 @@
 #include "GhostProjCharacter.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet\GameplayStatics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "ActorWithTrigger.h"
@@ -94,18 +95,41 @@ void AGhostProjCharacter::Tick(float DeltaTime)
 void AGhostProjCharacter::BeginPlay()
 {	
 	Super::BeginPlay();
+	
+
 	this->ShowWidgetUI();
 	this->UpdateUI();
 }
 
 void AGhostProjCharacter::OpenInventory()
 {
-	UE_LOG(LogTemp, Warning, TEXT("In inventory %i items"), Inventory.Num());
-	for (auto Elem:Inventory)
+	if (FlipFlop)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s item"), *Elem.GetName());
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
+		InventoryWidget->RemoveFromParent();
+		FlipFlop = false;
+		return;
 	}
-	//this->ShowInventoryWidget(Inventory);
+
+
+	if (ClassInventory)
+	{
+		InventoryWidget = CreateWidget<UShopUserWidget>(GetWorld(), ClassInventory);
+
+		if (InventoryWidget)
+		{
+		
+			FlipFlop = true;
+			InventoryWidget->AddToViewport();
+			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+			for (auto Elem : Inventory)
+			{
+				InventoryWidget->CreateElements(Elem, ClassElementInInventory);
+			}
+			
+		}
+		
+	}
 }
 
 void AGhostProjCharacter::Interaction()

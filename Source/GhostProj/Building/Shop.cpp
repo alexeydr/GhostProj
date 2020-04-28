@@ -5,12 +5,14 @@
 #include "Structs\ItemStruct.h"
 #include "Kismet\GameplayStatics.h"
 
+#define AMOUNT_MERCHANDISE 7
+
 void AShop::ActionOnInteract()
 {
 	Super::ActionOnInteract();
 
 	this->CreateShopWidget();
-	this->RefreshItems(4);
+	this->RefreshItems(AMOUNT_MERCHANDISE);
 }
 
 void AShop::CreateShopWidget()
@@ -34,15 +36,14 @@ void AShop::RefreshItems(uint8 ItemsInShop)
 {
 	TArray<FName> AllRows = DBItems->GetRowNames();
 
-	for (size_t i = 0; i < ItemsInShop; i++)
+	if (WidgetRef)
 	{
-		FItemParams* Row = DBItems->FindRow<FItemParams>(AllRows[FMath::RandRange(0,AllRows.Num()-1)], FString(""), false);
-		this->AddItemInShop(Row);
-		
+		for (size_t i = 0; i < ItemsInShop; i++)
+		{
+			FItemParams* Row = DBItems->FindRow<FItemParams>(AllRows[FMath::RandRange(0, AllRows.Num() - 1)], FString(""), false);
+			this->AddItemInShop(Row);
+			WidgetRef->CreateElements(*Row, ClassElementInShop);
+		}
 	}
 
-	for (auto Elem:this->GetItemsInShop())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Elem->GetName());
-	}
 }
