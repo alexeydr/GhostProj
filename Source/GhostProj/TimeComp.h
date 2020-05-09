@@ -26,6 +26,39 @@ struct FMyDateTime
 		Minutes = M;
 	}
 
+	bool operator>(FMyDateTime FirstDate)
+	{
+		if (this->Hours > FirstDate.Hours)
+		{
+			return true;
+		}
+		if (this->Hours == FirstDate.Hours)
+		{
+			if (this->Minutes > FirstDate.Minutes)
+			{
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	bool operator<(FMyDateTime FirstDate)
+	{
+		if (this->Hours < FirstDate.Hours)
+		{
+			return true;
+		}
+		if (this->Hours == FirstDate.Hours)
+		{
+			if (this->Minutes < FirstDate.Minutes)
+			{
+				return true;
+			}
+
+		}
+		return false;
+	}
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

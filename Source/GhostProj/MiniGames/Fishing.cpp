@@ -92,7 +92,7 @@ void AFishing::SetSide()
 
 
 	TimerDel.BindUFunction(this, FName("CheckResult"), false,this->CreateFish());
-	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 10.f, false);
+	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 1.f, false);
 }
 
 void AFishing::CheckResult(bool Result, const FFish ResultFish)
@@ -102,14 +102,14 @@ void AFishing::CheckResult(bool Result, const FFish ResultFish)
 
 	if (Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Poymal!!!!"));
+		UE_LOG(LogTemp, Warning, TEXT("Name: %s,Cost: %i "),*ResultFish.FishName,ResultFish.Cost);
 		this->StartFishing();
 		Fishpond.Add(ResultFish);
 	}
 	else
 	{
 		this->AfterFishing();
-		UE_LOG(LogTemp, Warning, TEXT("NePoymal"));
+		UE_LOG(LogTemp, Warning, TEXT("Ne Poymal"));
 	}
 
 }

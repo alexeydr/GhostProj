@@ -24,11 +24,10 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 					
 					FSlateChildSize Size;
 
-					Size.SizeRule = ESlateSizeRule::Fill;
-					Size.Value = 0.2;
+					Size.SizeRule = ESlateSizeRule::Automatic;
 
-					Slot->SetPadding(FMargin(50, 50, 50, 50));
-					//Slot->SetSize(Size);
+					Slot->SetPadding(FMargin(30, 30, 30, 30));
+					Slot->SetSize(Size);
 
 					ProductWidget->SetParams(ParamsItem);
 
@@ -43,7 +42,7 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 
 		if (HorizontBoxWidget)
 		{
-			MainBox->AddChildToVerticalBox(HorizontBoxWidget)->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
+			MainBox->AddChildToVerticalBox(HorizontBoxWidget)->SetSize(FSlateChildSize(ESlateSizeRule::Automatic));
 			this->CreateElements(ParamsItem,WidgetObj);
 		}
 

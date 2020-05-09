@@ -71,6 +71,9 @@ public:
 
 protected:
 	
+	UFUNCTION(BlueprintImplementableEvent)
+		void CreateMusicPlayer();
+
 	UShopUserWidget* InventoryWidget;
 
 	bool FlipFlop = false;
@@ -82,7 +85,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 		void ShowWidgetUI();
 	
-
+	void Talk();
 
 	UFUNCTION()
 		void OpenInventory();
@@ -115,6 +118,8 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+
 
 protected:
 	// APawn interface

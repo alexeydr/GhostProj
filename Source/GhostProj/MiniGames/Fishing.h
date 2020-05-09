@@ -49,9 +49,9 @@ class GHOSTPROJ_API AFishing : public AActorWithTrigger
 protected:
 
 
-	TArray<FString> FishNames = { "F","S","T" };
+	TArray<FString> FishNames = { "Roach","Carp","Herring" };
 
-	TArray<FString> UniqNames = { "UF","US","UT" };
+	TArray<FString> UniqNames = { "Shark","Catfish","Salmon" };
 
 	TArray<FFish> Fishpond;
 

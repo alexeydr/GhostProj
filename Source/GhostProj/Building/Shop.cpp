@@ -5,7 +5,7 @@
 #include "Structs\ItemStruct.h"
 #include "Kismet\GameplayStatics.h"
 
-#define AMOUNT_MERCHANDISE 7
+#define AMOUNT_MERCHANDISE 20
 
 void AShop::ActionOnInteract()
 {
