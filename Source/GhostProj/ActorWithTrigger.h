@@ -30,6 +30,9 @@ protected:
 		USceneComponent* Root;
 
 	UPROPERTY(EditDefaultsOnly)
+		FVector BoxEx = FVector(20,20,20);
+
+	UPROPERTY(EditDefaultsOnly)
 		class UStaticMeshComponent* StaticMesh;
 	
 	

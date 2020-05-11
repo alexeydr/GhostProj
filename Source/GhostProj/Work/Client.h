@@ -20,6 +20,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly)
+		UFastfoodComp* FastFoodComp;
+
+	TArray<FFood> DesiredFood;
 
 public:	
 	// Called every frame
@@ -28,5 +32,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	FORCEINLINE TArray<FFood> GetDesiredFood() { return DesiredFood;  };
 
 };

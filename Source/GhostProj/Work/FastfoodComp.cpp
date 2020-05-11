@@ -6,11 +6,9 @@
 // Sets default values for this component's properties
 UFastfoodComp::UFastfoodComp()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
@@ -19,7 +17,6 @@ void UFastfoodComp::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	
 }
 
@@ -29,7 +26,6 @@ void UFastfoodComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
 }
 
 TArray<FFood> UFastfoodComp::GetMenu()

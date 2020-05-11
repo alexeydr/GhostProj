@@ -52,12 +52,8 @@ void AWork::SpawnClient()
 {
 	if (ClientClass)
 	{
-
 		AClient* Client = GetWorld()->SpawnActor<AClient>(ClientClass, Spawnpoint, FRotator::ZeroRotator);
-		if (Client)
-		{
-
-		}
+	
 	}
 }
 

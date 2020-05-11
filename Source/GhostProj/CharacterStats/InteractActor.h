@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActorWithTrigger.h"
 #include "Structs\ItemStruct.h"
 #include "InteractActor.generated.h"
 
@@ -11,7 +10,7 @@
  * 
  */
 UCLASS()
-class GHOSTPROJ_API AInteractActor : public AActorWithTrigger
+class GHOSTPROJ_API AInteractActor : public AActor
 {
 	GENERATED_BODY()
 
@@ -33,10 +32,18 @@ protected:
 	UPROPERTY(EditAnywhere)
 		bool NeedDestroy = false;
 
+	class AGhostProjCharacter* MainChar;
+
+	UPROPERTY(EditDefaultsOnly)
+		class UStaticMeshComponent* StaticMesh;
 public:
 
+	FORCEINLINE void SetItemParam(FItemParams NewParam) { this->ItemParam = NewParam; };
+
+	static void EffectItem(FItemParams ParamForUse, class AGhostProjCharacter* MainCharater);
+
 	UFUNCTION(BlueprintCallable)
-		void UseItem(FItemParams ParamForUse);
+	void UseItem(FItemParams ParamForUse);
 
 	UFUNCTION(BlueprintCallable)
 		void TakeItem();
@@ -47,5 +54,5 @@ public:
 		return ItemParam;
 	};
 
-	void ActionOnInteract() override;
+	void ActionOnInteract();
 };

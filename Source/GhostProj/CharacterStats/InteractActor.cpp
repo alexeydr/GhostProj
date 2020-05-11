@@ -2,16 +2,47 @@
 
 
 #include "InteractActor.h"
+#include "Components\StaticMeshComponent.h"
+#include "Engine\World.h"
+#include "Components\StaticMeshComponent.h"
+#include "Components\SceneComponent.h"
+#include "GhostProjCharacter.h"
+#include "Kismet\GameplayStatics.h"
 
 AInteractActor::AInteractActor()
 {
-	ItemParam.AddClass(AInteractActor::StaticClass());
+	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(FName("Root"));
+	RootComponent = Root;
+	
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("MeshComp"));
+	StaticMesh->AttachTo(Root);
 }
 
 void AInteractActor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MainChar = Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
+	
+}
+
+void AInteractActor::EffectItem(FItemParams ParamForUse, AGhostProjCharacter * MainCharater)
+{
+	switch (ParamForUse.GetType())
+	{
+	case EStats::Thirst:
+		MainCharater->Thirst = FMath::Clamp(MainCharater->Thirst + ParamForUse.GetValue(), 1.f, 100.f);
+		break;
+	case EStats::Hunger:
+		MainCharater->Hunger = FMath::Clamp(MainCharater->Hunger + ParamForUse.GetValue(), 1.f, 100.f);
+		break;
+	case EStats::Sleepiness:
+		MainCharater->Sleepiness = FMath::Clamp(MainCharater->Sleepiness + ParamForUse.GetValue(), 1.f, 100.f);
+		break;
+	}
+	MainCharater->UpdateUI();
+
 }
 
 void AInteractActor::UseItem(FItemParams ParamForUse)
@@ -19,19 +50,7 @@ void AInteractActor::UseItem(FItemParams ParamForUse)
 
 	this->PlayEffect();
 
-	switch (ParamForUse.GetType())
-	{
-	case EStats::Thirst:
-		MainChar->Thirst = FMath::Clamp(MainChar->Thirst + ParamForUse.GetValue(), 1.f, 100.f);
-		break;
-	case EStats::Hunger:
-		MainChar->Hunger = FMath::Clamp(MainChar->Hunger + ParamForUse.GetValue(), 1.f, 100.f);
-		break;
-	case EStats::Sleepiness:
-		MainChar->Sleepiness = FMath::Clamp(MainChar->Sleepiness + ParamForUse.GetValue(), 1.f, 100.f);
-		break;
-	}
-	MainChar->UpdateUI();
+	this->EffectItem(ParamForUse, MainChar);
 
 	if (NeedDestroy)
 	{

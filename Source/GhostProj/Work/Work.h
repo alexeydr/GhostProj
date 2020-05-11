@@ -65,7 +65,7 @@ protected:
 
 	float Money = 0;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 		UFastfoodComp* FFComp;
 
 	UPROPERTY(EditAnywhere)

@@ -48,3 +48,12 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 
 	}
 }
+
+void UShopUserWidget::RemoveAllElements()
+{
+	for (auto Elem: MainBox->GetAllChildren())
+	{
+		MainBox->RemoveChild(Elem);
+	} 
+
+}

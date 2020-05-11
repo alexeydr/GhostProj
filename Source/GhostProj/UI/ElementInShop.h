@@ -17,7 +17,20 @@ class GHOSTPROJ_API UElementInShop : public UUserWidget
 
 protected:
 
-	FItemParams ElemetStat;
+	FItemParams ElementStat;
+
+	void SynchronizeProperties() override;
+
+	UFUNCTION()
+		void ClickDropButton();
+
+	UFUNCTION()
+		void ClickBuyButton();
+
+	UFUNCTION()
+		void ClickUseButton();
+
+	
 
 public:
 

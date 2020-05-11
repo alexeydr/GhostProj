@@ -4,6 +4,8 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet\GameplayStatics.h"
+#include "Work\Client.h"
+#include "CharacterStats\InteractActor.h"
 #include "Components/CapsuleComponent.h"
 #include "Engine\Engine.h"
 #include "Components/InputComponent.h"
@@ -93,6 +95,13 @@ void AGhostProjCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	UpdateTime(HeroTime->GetTime());
+	
+	AActor* Result = this->LineTrace();
+
+	if (Result)
+	{
+		this->ActionWithActor(Result);
+	}
 }
 
 
@@ -107,12 +116,58 @@ void AGhostProjCharacter::BeginPlay()
 
 void AGhostProjCharacter::Talk()
 {
+	
+}
+
+void AGhostProjCharacter::UpdateInventory(FItemParams Params)
+{
+	if (InventoryWidget)
+	{
+		InventoryWidget->RemoveAllElements();
+
+		Inventory.Remove(Params);
+		for (auto Elem : Inventory)
+		{
+			InventoryWidget->CreateElements(Elem, ClassElementInInventory);
+		}
+	}
+
+}
+
+void AGhostProjCharacter::ActionWithActor(AActor * Act)
+{
+	AClient* LineTraceClient = Cast<AClient>(Act);
+
+	if (LineTraceClient)
+	{
+
+		FString Str = "";
+		for (auto Elem : LineTraceClient->GetDesiredFood())
+		{
+			Str += Elem.GetFoodName() + ", ";
+		}
+		UE_LOG(LogTemp, Warning, TEXT("I want: %s"), *Str);
+	}
+
+	AInteractActor* InteractActor = Cast<AInteractActor>(Act);
+	if (InteractActor)
+	{
+		InteractActor->ActionOnInteract();
+	}
+
+}
+
+AActor*  AGhostProjCharacter::LineTrace()
+{
 	FHitResult OutHit;
-	FVector Start = this->GetActorLocation();
+	FVector Start = this->GetFollowCamera()->GetComponentLocation();
 
 	FVector ForwardVector = this->GetFollowCamera()->GetForwardVector();
 	FVector End = ((ForwardVector * 1000.f) + Start);
 	FCollisionQueryParams CollisionParams;
+
+	CollisionParams.AddIgnoredActor(this);
+
 
 	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 1);
 
@@ -120,14 +175,14 @@ void AGhostProjCharacter::Talk()
 	{
 		if (OutHit.bBlockingHit)
 		{
-			if (GEngine) {
-
-				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *OutHit.GetActor()->GetName()));
-
-			}
+			return  OutHit.GetActor();
+			
 		}
 	}
-
+	
+	AActor* Emp = nullptr;
+	return Emp;
+	
 }
 
 void AGhostProjCharacter::OpenInventory()

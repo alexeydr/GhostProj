@@ -15,6 +15,7 @@ AActorWithTrigger::AActorWithTrigger()
 	Root = CreateDefaultSubobject<USceneComponent>(FName("Root"));
 	RootComponent = Root;
 	BoxComp = CreateDefaultSubobject<UBoxComponent>(FName("BoxComp"));
+	BoxComp->SetBoxExtent(BoxEx);
 	BoxComp->AttachTo(Root);
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("MeshComp"));
 	StaticMesh->AttachTo(BoxComp);

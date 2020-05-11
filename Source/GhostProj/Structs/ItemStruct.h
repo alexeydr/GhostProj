@@ -36,7 +36,9 @@ private:
 	UPROPERTY(EditAnywhere)
 		class UTexture2D* Texture;
 	UPROPERTY(EditAnywhere)
-		UClass* ClassItem;
+		UClass* ItemClass;
+	UPROPERTY(EditAnywhere)
+		class UStaticMesh* Mesh;
 	UPROPERTY(EditAnywhere)
 		int Price;
 public:
@@ -47,6 +49,16 @@ public:
 		this->TypeActor = NewTypeActor;
 		this->Value = NewValue;
 	}
+	void AddClass(UClass* Cl)
+	{
+		this->ItemClass = Cl;
+	}
+
+	void AddMesh(class UStaticMesh* M)
+	{
+		this->Mesh = M;
+	}
+
 
 	void AddName(FString N)
 	{
@@ -66,11 +78,6 @@ public:
 	void AddTexture(class UTexture2D* Texture2D)
 	{
 		this->Texture = Texture2D;
-	}
-
-	void AddClass(UClass* NewClass)
-	{
-		this->ClassItem = NewClass;
 	}
 
 	void AddPrice(int Pr)
@@ -98,14 +105,32 @@ public:
 		return this->Texture;
 	}
 
-	UClass* GetClassItem()
-	{
-		return this->ClassItem;
-	}
-
 	int GetPrice()
 	{
 		return this->Price;
+	}
+
+	UClass* GetClass()
+	{
+		return this->ItemClass;
+	}
+
+	class UStaticMesh* GetMesh()
+	{
+		return this->Mesh;
+	}
+
+	bool operator ==(FItemParams Param)
+	{
+		if (this->GetName() == Param.GetName() && 
+			this->GetPrice() == Param.GetPrice() && 
+			this->GetValue() == Param.GetValue() && 
+			this->GetTexture() == Param.GetTexture() && 
+			this->GetType() == Param.GetType())
+		{
+			return true;
+		}
+		return false;
 	}
 
 };

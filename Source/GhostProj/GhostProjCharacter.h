@@ -69,7 +69,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UShopUserWidget> ClassInventory;
 
+	void UpdateInventory(FItemParams Params);
+
 protected:
+
+	void ActionWithActor(AActor* Act);
+
+	AActor* LineTrace();
 	
 	UFUNCTION(BlueprintImplementableEvent)
 		void CreateMusicPlayer();

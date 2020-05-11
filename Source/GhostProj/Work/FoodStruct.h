@@ -16,20 +16,33 @@ struct FFood:public FTableRowBase
 	GENERATED_USTRUCT_BODY()
 
 private:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 		FString Name;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 		float Cost;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 		class UTexture2D* Texture;
 
 public:
+
+	FORCEINLINE FString GetFoodName() { return Name; };
+
+	FORCEINLINE float GetFoodCost() { return Cost; };
+
+
 	FFood(FString N, float C, class UTexture2D* T)
 	{
 		Name = N;
 		Cost = C;
 		Texture = T;
 	}
+
+	FFood(FString N, float C)
+	{
+		Name = N;
+		Cost = C;
+	}
+
 
 	FFood()
 	{

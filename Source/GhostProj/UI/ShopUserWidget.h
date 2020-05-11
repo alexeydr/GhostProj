@@ -24,6 +24,8 @@ public:
 
 	void CreateElements(FItemParams ParamsItem, TSubclassOf<UElementInShop> WidgetObj);
 
+	void RemoveAllElements();
+
 protected:
 
 	UHorizontalBoxWidget* HorizontBoxWidget;
