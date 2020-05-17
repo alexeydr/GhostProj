@@ -41,6 +41,8 @@ private:
 		class UStaticMesh* Mesh;
 	UPROPERTY(EditAnywhere)
 		int Price;
+	UPROPERTY(EditAnywhere)
+		bool NeedDestroy;
 public:
 	
 	FItemParams(FString NewName = "", EStats NewTypeActor = EStats::None, int NewValue = 0)
@@ -59,6 +61,10 @@ public:
 		this->Mesh = M;
 	}
 
+	void AddDestroySettings(bool N)
+	{
+		this->NeedDestroy = N;
+	}
 
 	void AddName(FString N)
 	{
@@ -108,6 +114,11 @@ public:
 	int GetPrice()
 	{
 		return this->Price;
+	}
+
+	bool GetNeedDestroy()
+	{
+		return this->NeedDestroy;
 	}
 
 	UClass* GetClass()

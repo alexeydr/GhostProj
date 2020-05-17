@@ -30,9 +30,13 @@ protected:
 	UFUNCTION()
 		void ClickUseButton();
 
-	
+	//class UShopUserWidget* WidgetOwner;
+
+	class AGhostProjCharacter* MainChar;
 
 public:
+
+	//FORCEINLINE void SetOwnerWidget(class UShopUserWidget* Own) { this->WidgetOwner = Own; };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* ItemName;

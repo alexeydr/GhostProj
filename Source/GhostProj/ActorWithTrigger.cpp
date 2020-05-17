@@ -42,7 +42,7 @@ void AActorWithTrigger::OnBoxBeginOverlap(UPrimitiveComponent * OverlappedComp, 
 {
 	if (OtherActor == MainChar)
 	{
-		MainChar->InteractActor = this;
+		MainChar->ActWithTrig = this;
 	}
 }
 
@@ -50,7 +50,7 @@ void AActorWithTrigger::OnBoxEndOverlap(UPrimitiveComponent * OverlappedComp, AA
 {
 	if (OtherActor == MainChar)
 	{
-		MainChar->InteractActor = NULL;
+		MainChar->ActWithTrig = NULL;
 	}
 }
 

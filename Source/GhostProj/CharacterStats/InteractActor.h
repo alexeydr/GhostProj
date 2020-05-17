@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Structs\ItemStruct.h"
+#include "InteractI.h"
 #include "InteractActor.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GHOSTPROJ_API AInteractActor : public AActor
+class GHOSTPROJ_API AInteractActor : public AActor, public IInteractI
 {
 	GENERATED_BODY()
 
@@ -29,14 +30,13 @@ protected:
 	UPROPERTY(EditAnywhere)
 		FItemParams ItemParam;
 
-	UPROPERTY(EditAnywhere)
-		bool NeedDestroy = false;
 
 	class AGhostProjCharacter* MainChar;
 
 	UPROPERTY(EditDefaultsOnly)
 		class UStaticMeshComponent* StaticMesh;
 public:
+ 
 
 	FORCEINLINE void SetItemParam(FItemParams NewParam) { this->ItemParam = NewParam; };
 

@@ -17,23 +17,32 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 		{
 			if (HorizontBoxWidget->HorizonBox->GetChildrenCount() < AMOUNT_ELEMENTS)
 			{
-				UElementInShop* ProductWidget = CreateWidget<UElementInShop>(GetWorld(), WidgetObj);
-				if (ProductWidget)
+				
+				if (MainBox->GetChildIndex(HorizontBoxWidget) >= 0)
 				{
-					UHorizontalBoxSlot* Slot = HorizontBoxWidget->HorizonBox->AddChildToHorizontalBox(ProductWidget);
-					
-					FSlateChildSize Size;
+					UElementInShop* ProductWidget = CreateWidget<UElementInShop>(GetWorld(), WidgetObj);
+					if (ProductWidget)
+					{
+						//UE_LOG(LogTemp, Warning, TEXT("name it: %s"),*ParamsItem.GetName());
+						//ProductWidget->SetOwnerWidget(this);
 
-					Size.SizeRule = ESlateSizeRule::Automatic;
+						UHorizontalBoxSlot* Slot = HorizontBoxWidget->HorizonBox->AddChildToHorizontalBox(ProductWidget);
 
-					Slot->SetPadding(FMargin(30, 30, 30, 30));
-					Slot->SetSize(Size);
+						//UE_LOG(LogTemp, Warning, TEXT("name it: %s"), *Slot->GetName());
 
-					ProductWidget->SetParams(ParamsItem);
+						FSlateChildSize Size;
 
-					
+						Size.SizeRule = ESlateSizeRule::Automatic;
 
-					return;
+						Slot->SetPadding(FMargin(30, 30, 30, 30));
+						Slot->SetSize(Size);
+
+						ProductWidget->SetParams(ParamsItem);
+
+
+
+						return;
+					}
 				}
 			}
 			
@@ -42,6 +51,7 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 
 		if (HorizontBoxWidget)
 		{
+			
 			MainBox->AddChildToVerticalBox(HorizontBoxWidget)->SetSize(FSlateChildSize(ESlateSizeRule::Automatic));
 			this->CreateElements(ParamsItem,WidgetObj);
 		}
@@ -51,9 +61,7 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 
 void UShopUserWidget::RemoveAllElements()
 {
-	for (auto Elem: MainBox->GetAllChildren())
-	{
-		MainBox->RemoveChild(Elem);
-	} 
+	MainBox->ClearChildren();
+	
 
 }

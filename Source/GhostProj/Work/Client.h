@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "UI\InteractWithClient.h"
+#include "InteractI.h"
 #include "FastfoodComp.h"
 #include "Client.generated.h"
 
 UCLASS()
-class GHOSTPROJ_API AClient : public ACharacter
+class GHOSTPROJ_API AClient : public ACharacter, public IInteractI
 {
 	GENERATED_BODY()
 
@@ -25,7 +27,20 @@ protected:
 
 	TArray<FFood> DesiredFood;
 
+	bool TypeOrder = FMath::RandBool();
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+		TSubclassOf<UInteractWithClient> WidgetObj;
+
+
+	UInteractWithClient* WidgetRef;
+
+	bool CreateInteractWidget();
+
+	void SetWidgetProperty();
+
 public:	
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -33,5 +48,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	FORCEINLINE TArray<FFood> GetDesiredFood() { return DesiredFood;  };
+
+	void ActionOnInteract();
 
 };

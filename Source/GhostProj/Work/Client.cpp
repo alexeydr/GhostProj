@@ -3,6 +3,7 @@
 
 #include "Client.h"
 #include "Engine\World.h"
+#include "Kismet\GameplayStatics.h"
 #include "AIController.h"
 
 // Sets default values
@@ -29,6 +30,32 @@ void AClient::BeginPlay()
 
 }
 
+bool AClient::CreateInteractWidget()
+{
+	if (WidgetObj)
+	{
+		WidgetRef = CreateWidget<UInteractWithClient>(GetWorld(), WidgetObj);
+
+		if (WidgetRef)
+			WidgetRef->AddToViewport();
+		else
+			return false;
+
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+		return true;
+	}
+	return false;
+}
+
+void AClient::SetWidgetProperty()
+{
+	for (FFood Elem: DesiredFood)
+	{
+		WidgetRef->SetTextInDesiredFood(Elem.GetFoodName());
+	}
+
+}
+
 // Called every frame
 void AClient::Tick(float DeltaTime)
 {
@@ -40,5 +67,14 @@ void AClient::Tick(float DeltaTime)
 void AClient::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+}
+
+void AClient::ActionOnInteract()
+{
+	if (this->CreateInteractWidget())
+	{
+		this->SetWidgetProperty();
+	}
 
 }

@@ -27,6 +27,8 @@ void AInteractActor::BeginPlay()
 	
 }
 
+
+
 void AInteractActor::EffectItem(FItemParams ParamForUse, AGhostProjCharacter * MainCharater)
 {
 	switch (ParamForUse.GetType())
@@ -52,19 +54,19 @@ void AInteractActor::UseItem(FItemParams ParamForUse)
 
 	this->EffectItem(ParamForUse, MainChar);
 
-	if (NeedDestroy)
+	if (this->ItemParam.GetNeedDestroy())
 	{
-		MainChar->InteractActor = NULL;
+		//MainChar->InteractActor = NULL;
 		this->Destroy();
 	}
 }
 
 void AInteractActor::TakeItem()
 {
-	if (NeedDestroy)
+	if (this->ItemParam.GetNeedDestroy())
 	{
-		MainChar->AddItemToInventory(this->ItemParam);
-		MainChar->InteractActor = NULL;
+		MainChar->UpdateInventory(this->ItemParam,EActionWithItem::Add);
+		//MainChar->InteractActor = NULL;
 		this->Destroy();
 	}
 }

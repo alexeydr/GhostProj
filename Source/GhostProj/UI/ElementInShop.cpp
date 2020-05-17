@@ -28,24 +28,30 @@ void UElementInShop::SynchronizeProperties()
 		Buy->OnClicked.AddDynamic(this, &UElementInShop::ClickBuyButton);
 	}
 
+	MainChar = Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 void UElementInShop::ClickDropButton()
 {
-	AInteractActor* Item = GetWorld()->SpawnActor<AInteractActor>(ElementStat.GetClass(), UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetActorLocation() + FVector(100,0,0), FRotator::ZeroRotator);
 
-	Item->SetItemParam(ElementStat);
+		AInteractActor* Item = GetWorld()->SpawnActor<AInteractActor>(ElementStat.GetClass(), MainChar->GetActorLocation() + FVector(100, 0, 0), FRotator::ZeroRotator);
 
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s"),*Item->GetName());
+		Item->SetItemParam(ElementStat);
+		
+		MainChar->UpdateInventory(this->ElementStat,EActionWithItem::Remove);
+
+		//UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Item->GetName());
+	
 }
 
 void UElementInShop::ClickBuyButton()
 {
-	AGhostProjCharacter* MainChar = Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-
+	
 	if (MainChar->Money >= ElementStat.GetPrice())
 	{
 		MainChar->Money -= ElementStat.GetPrice();
+
+		MainChar->UpdateUI();
 
 		MainChar->AddItemToInventory(ElementStat);
 	}
@@ -53,7 +59,9 @@ void UElementInShop::ClickBuyButton()
 
 void UElementInShop::ClickUseButton()
 {
-	AInteractActor::EffectItem(ElementStat, Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)));
+	AInteractActor::EffectItem(ElementStat, MainChar);
+
+	MainChar->UpdateInventory(this->ElementStat, EActionWithItem::Remove);
 }
 
 void UElementInShop::SetParams(FItemParams Param)

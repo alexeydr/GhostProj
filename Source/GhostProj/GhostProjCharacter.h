@@ -11,6 +11,16 @@
 #include "GhostProjCharacter.generated.h"
 
 
+UENUM()
+enum class EActionWithItem : uint8
+{
+	None 	UMETA(DisplayName = "None"),
+	Add 	UMETA(DisplayName = "Add"),
+	Remove	UMETA(DisplayName = "Remove")
+};
+
+
+
 UCLASS(config=Game)
 class AGhostProjCharacter : public ACharacter
 {
@@ -46,7 +56,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = Stats)
 	float Money;
 
-	class AActorWithTrigger* InteractActor;
+	class AActorWithTrigger* ActWithTrig;
 	
 	UFUNCTION(BlueprintImplementableEvent)
 		void UpdateTime(FMyDateTime NewTime);
@@ -61,6 +71,19 @@ public:
 	FORCEINLINE void AddItemToInventory(FItemParams Item)
 	{
 		this->Inventory.Add(Item);
+
+	}
+
+	FORCEINLINE void RemoveItemFromInventory(FItemParams Item)
+	{
+		for (size_t i = 0; i < Inventory.Num(); i++)
+		{
+			if (Inventory[i] == Item)
+			{
+				Inventory.RemoveAt(i);
+			}
+		}
+
 	}
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
@@ -69,9 +92,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UShopUserWidget> ClassInventory;
 
-	void UpdateInventory(FItemParams Params);
+	void UpdateInventory(FItemParams Params, EActionWithItem Action);
 
 protected:
+
+	void ActiveInteractWidget(AActor* InteractActor);
+
+	AActor* InteractActor;
 
 	void ActionWithActor(AActor* Act);
 

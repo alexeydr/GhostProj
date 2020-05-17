@@ -30,6 +30,7 @@ void AWork::ActionOnInteract()
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(MainChar->GetController(), this->Workplacepoint);
 
 		this->SpawnClient();
+		MainChar->ActWithTrig = NULL;
 	}
 	else
 	{

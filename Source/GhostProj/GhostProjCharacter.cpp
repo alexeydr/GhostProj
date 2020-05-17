@@ -4,6 +4,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet\GameplayStatics.h"
+#include "InteractI.h"
 #include "Work\Client.h"
 #include "CharacterStats\InteractActor.h"
 #include "Components/CapsuleComponent.h"
@@ -100,8 +101,16 @@ void AGhostProjCharacter::Tick(float DeltaTime)
 
 	if (Result)
 	{
-		this->ActionWithActor(Result);
+
+		if (UKismetSystemLibrary::DoesImplementInterface(Result, UInteractI::StaticClass()))
+		{
+			InteractActor = Result;
+			this->ActiveInteractWidget(Result);
+			return;
+		}
 	}
+	
+	InteractActor = NULL;
 }
 
 
@@ -119,13 +128,25 @@ void AGhostProjCharacter::Talk()
 	
 }
 
-void AGhostProjCharacter::UpdateInventory(FItemParams Params)
+void AGhostProjCharacter::UpdateInventory(FItemParams Params, EActionWithItem Action)
 {
+	switch (Action)
+	{
+	case EActionWithItem::None:
+		break;
+	case EActionWithItem::Add:
+		this->AddItemToInventory(Params);
+		break;
+	case EActionWithItem::Remove:
+		this->RemoveItemFromInventory(Params);
+		break;
+	}
+
 	if (InventoryWidget)
 	{
 		InventoryWidget->RemoveAllElements();
 
-		Inventory.Remove(Params);
+		
 		for (auto Elem : Inventory)
 		{
 			InventoryWidget->CreateElements(Elem, ClassElementInInventory);
@@ -134,19 +155,29 @@ void AGhostProjCharacter::UpdateInventory(FItemParams Params)
 
 }
 
+void AGhostProjCharacter::ActiveInteractWidget(AActor * InteractActor)
+{
+	AInteractActor* Item = Cast<AInteractActor>(InteractActor);
+	if (Item)
+	{
+		IInteractI::Execute_OnInteract(Item, Item->GetItemParam().GetName());
+	}
+
+	AClient* NewClient = Cast<AClient>(InteractActor);
+	if (NewClient)
+	{
+		IInteractI::Execute_OnInteract(NewClient,"Client");
+	}
+
+}
+
 void AGhostProjCharacter::ActionWithActor(AActor * Act)
 {
-	AClient* LineTraceClient = Cast<AClient>(Act);
+	AClient* Client = Cast<AClient>(Act);
 
-	if (LineTraceClient)
+	if (Client)
 	{
-
-		FString Str = "";
-		for (auto Elem : LineTraceClient->GetDesiredFood())
-		{
-			Str += Elem.GetFoodName() + ", ";
-		}
-		UE_LOG(LogTemp, Warning, TEXT("I want: %s"), *Str);
+		Client->ActionOnInteract();
 	}
 
 	AInteractActor* InteractActor = Cast<AInteractActor>(Act);
@@ -169,7 +200,7 @@ AActor*  AGhostProjCharacter::LineTrace()
 	CollisionParams.AddIgnoredActor(this);
 
 
-	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 1);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 1);
 
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams))
 	{
@@ -202,7 +233,6 @@ void AGhostProjCharacter::OpenInventory()
 
 		if (InventoryWidget)
 		{
-		
 			FlipFlop = true;
 			InventoryWidget->AddToViewport();
 			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
@@ -218,9 +248,14 @@ void AGhostProjCharacter::OpenInventory()
 
 void AGhostProjCharacter::Interaction()
 {
+	if (ActWithTrig)
+	{
+		ActWithTrig->ActionOnInteract();
+	}
+
 	if (InteractActor)
 	{
-		InteractActor->ActionOnInteract();
+		this->ActionWithActor(InteractActor);
 	}
 }
 
