@@ -30,13 +30,16 @@ protected:
 	UFUNCTION()
 		void ClickUseButton();
 
-	//class UShopUserWidget* WidgetOwner;
+	UFUNCTION()
+		void ClickAddToBasketButton();
+
+	class UInteractWithClient* WidgetOwner;
 
 	class AGhostProjCharacter* MainChar;
 
 public:
 
-	//FORCEINLINE void SetOwnerWidget(class UShopUserWidget* Own) { this->WidgetOwner = Own; };
+	FORCEINLINE void SetOwnerWidget(class UInteractWithClient* Own) { this->WidgetOwner = Own; };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* ItemName;
@@ -52,6 +55,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidgetOptional))
 		class UButton* Buy;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidgetOptional))
+		class UButton* AddToBasket;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidgetOptional))
 		class UTextBlock* Price;

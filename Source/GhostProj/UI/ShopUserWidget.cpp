@@ -39,8 +39,6 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 
 						ProductWidget->SetParams(ParamsItem);
 
-
-
 						return;
 					}
 				}
@@ -63,5 +61,4 @@ void UShopUserWidget::RemoveAllElements()
 {
 	MainBox->ClearChildren();
 	
-
 }

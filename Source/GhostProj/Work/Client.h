@@ -32,12 +32,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UInteractWithClient> WidgetObj;
 
+	float ClientMoney = 0;
 
 	UInteractWithClient* WidgetRef;
 
 	bool CreateInteractWidget();
 
 	void SetWidgetProperty();
+
+	void SetFinalMoney();
 
 public:	
 

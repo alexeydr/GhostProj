@@ -13,6 +13,7 @@ class AGhostProjGameMode : public AGameModeBase
 
 public:
 	AGhostProjGameMode();
+
 };
 
 

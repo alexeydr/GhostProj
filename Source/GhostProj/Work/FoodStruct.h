@@ -29,6 +29,8 @@ public:
 
 	FORCEINLINE float GetFoodCost() { return Cost; };
 
+	FORCEINLINE class UTexture2D* GetFoodTexture() { return Texture; };
+
 
 	FFood(FString N, float C, class UTexture2D* T)
 	{

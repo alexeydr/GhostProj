@@ -5,6 +5,7 @@
 #include "Components\Image.h"
 #include "GhostProjCharacter.h"
 #include "Kismet\GameplayStatics.h"
+#include "InteractWithClient.h"
 #include "CharacterStats\InteractActor.h"
 #include "Components\Button.h"
 #include "Components\TextBlock.h"
@@ -26,6 +27,11 @@ void UElementInShop::SynchronizeProperties()
 	if (Buy)
 	{
 		Buy->OnClicked.AddDynamic(this, &UElementInShop::ClickBuyButton);
+	}
+
+	if (AddToBasket)
+	{
+		AddToBasket->OnClicked.AddDynamic(this, &UElementInShop::ClickAddToBasketButton);
 	}
 
 	MainChar = Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
@@ -62,6 +68,15 @@ void UElementInShop::ClickUseButton()
 	AInteractActor::EffectItem(ElementStat, MainChar);
 
 	MainChar->UpdateInventory(this->ElementStat, EActionWithItem::Remove);
+}
+
+void UElementInShop::ClickAddToBasketButton()
+{
+	if (this->WidgetOwner)
+	{
+		WidgetOwner->ClickOnValInBasket(this->ElementStat.GetName(), this->ElementStat.GetPrice());
+	}
+
 }
 
 void UElementInShop::SetParams(FItemParams Param)
