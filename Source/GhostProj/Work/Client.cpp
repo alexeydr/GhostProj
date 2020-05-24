@@ -1,9 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#pragma warning(disable: 4018)
 
 #include "Client.h"
 #include "Engine\World.h"
 #include "Kismet\GameplayStatics.h"
+#include "Work.h"
+#include "AITypes.h"
+#include "ClientAIController.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "AIController.h"
 
@@ -13,6 +17,13 @@ AClient::AClient()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	FastFoodComp = CreateDefaultSubobject<UFastfoodComp>(FName("FastFoodComp"));
+	
+
+}
+
+AClient::~AClient()
+{
+	
 }
 
 // Called when the game starts or when spawned
@@ -20,18 +31,15 @@ void AClient::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	for (size_t i = 0; i < FMath::RandRange(1,4); i++)
+	AClientAIController* Contrl = Cast<AClientAIController>(this->Controller);
+	if (Contrl)
 	{
-		if (this->FastFoodComp->GetMenu().Num() > 0)
-		{
-			FFood TempFood = this->FastFoodComp->GetMenu()[FMath::RandRange(0, this->FastFoodComp->GetMenu().Num() - 1)];
-			this->DesiredFood.Add(TempFood);
-			
-			this->ClientMoney += TempFood.GetFoodCost();
-		}
+		MovementCompleteDelegate.BindUFunction(this, "Test");
+		Contrl->ReceiveMoveCompleted.Add(MovementCompleteDelegate);
 	}
 
-	this->SetFinalMoney();
+	
+	this->SetFoodPreferences();
 }
 
 bool AClient::CreateInteractWidget()
@@ -54,18 +62,16 @@ bool AClient::CreateInteractWidget()
 
 void AClient::SetWidgetProperty()
 {
-	FString Name;
-	for (FFood Elem: DesiredFood)
-	{
-		Name += " " + Elem.GetFoodName();
-	}
-	WidgetRef->AddElementInDesiredFood(Name);
+	
 	WidgetRef->FormMenu(this->FastFoodComp);
+	WidgetRef->SetOwnerClient(this);
+	WidgetRef->ChangeTextInDesiredFood(this->DesiredFood);
+	WidgetRef->SetCashBox(Cast<AWork>(this->GetOwner()));
 }
 
-void AClient::SetFinalMoney()
+void AClient::ChangeClientBalance()
 {
-	if (FMath::RandRange(0, 85))
+	if (FMath::RandRange(1, 100) <= -1)
 	{
 		this->ClientMoney += FMath::RandRange(0, 100);
 	}
@@ -74,6 +80,100 @@ void AClient::SetFinalMoney()
 		this->ClientMoney -= FMath::RandRange(1, 20);
 	}
 
+}
+
+void AClient::GoToNewPoint(EDestination Dest)
+{
+	AClientAIController* Contrl = Cast<AClientAIController>(this->Controller);
+	if (Contrl)
+	{
+		switch (Dest)
+		{
+		case ToSpawnPoint:
+			CurrentDest = ToSpawnPoint;
+			Contrl->MoveToLocation(Cast<AWork>(this->GetOwner())->GetSpawnpoint());
+			break;
+		case ToOrder:
+			CurrentDest = ToOrder;
+			Contrl->MoveToLocation(Cast<AWork>(this->GetOwner())->GetOrderPoint());
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void AClient::ActionOnMoveComplete()
+{
+	switch (CurrentDest)
+	{
+	case None:
+		return;
+		break;
+	case ToSpawnPoint:
+		this->BeforeDestroy();
+		break;
+	case ToOrder:
+		this->GoToNewPoint(EDestination::ToSpawnPoint);
+		break;
+	default:
+		break;
+	}
+}
+
+void AClient::BeforeDestroy()
+{
+	AWork* Own = Cast<AWork>(this->GetOwner());
+	if (Own)
+	{
+		if (Own->CheckWorkTime())
+		{
+			Own->SpawnClient();
+		}
+	}
+
+	this->Destroy();
+}
+
+void AClient::Test(struct FAIRequestID RequestID,EPathFollowingResult::Type Result)
+{
+	this->ActionOnMoveComplete();
+
+}
+
+void AClient::SetFoodPreferences()
+{
+	this->ClientMoney = 0;
+	DesiredFood.Empty();
+	for (int i = 0; i < FMath::RandRange(1, 6); i++)
+	{
+		if (this->FastFoodComp->GetMenu().Num() > 0)
+		{
+			FFood TempFood = this->FastFoodComp->GetMenu()[FMath::RandRange(0, this->FastFoodComp->GetMenu().Num() - 1)];
+			this->DesiredFood.Add(TempFood);
+
+			this->ClientMoney += TempFood.GetFoodCost();
+		}
+	}
+
+	this->ChangeClientBalance();
+	if (WidgetRef)
+	{
+		WidgetRef->ChangeTextInDesiredFood(this->DesiredFood);
+
+	}
+}
+
+void AClient::CompleteOrder(bool Result)
+{
+	UWidgetBlueprintLibrary::SetInputMode_GameOnly(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
+	if (Result)
+	{
+		this->GoToNewPoint(EDestination::ToOrder);
+		return;
+	}
+	this->GoToNewPoint(EDestination::ToSpawnPoint);
 }
 
 // Called every frame

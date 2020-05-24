@@ -43,14 +43,23 @@ public:
 		}
 	};
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void CreateInfoWidget(const FString &Text);
+
+	FORCEINLINE FVector GetSpawnpoint() { return Spawnpoint; };
+
+	FORCEINLINE FVector GetOrderPoint() { return OrderPoint; };
+
+	bool CheckWorkTime();
+
+	void SpawnClient();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void ActionOnInteract();
-
-	bool CheckWorkTime();
+	
 
 	UPROPERTY(EditAnywhere)
 		FVector Workplacepoint;
@@ -58,12 +67,10 @@ protected:
 	UPROPERTY(EditAnywhere)
 		FVector Spawnpoint;
 
-	UFUNCTION(BlueprintImplementableEvent)
-		void CreateInfoWidget();
+	UPROPERTY(EditAnywhere)
+		FVector OrderPoint;
 
-	void SpawnClient();
-
-	float Money = 0;
+	float Money = 500;
 
 	UPROPERTY(EditDefaultsOnly)
 		UFastfoodComp* FFComp;

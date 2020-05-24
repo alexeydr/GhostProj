@@ -14,10 +14,12 @@ class GHOSTPROJ_API AClientAIController : public AAIController
 {
 	GENERATED_BODY()
 
+public:
+
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
 	
-	class AClient* ControlledPawn;
+
 };

@@ -5,9 +5,18 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "UI\InteractWithClient.h"
+#include "Navigation/PathFollowingComponent.h"
 #include "InteractI.h"
 #include "FastfoodComp.h"
 #include "Client.generated.h"
+
+UENUM()
+enum EDestination
+{
+	None,
+	ToSpawnPoint,
+	ToOrder
+};
 
 UCLASS()
 class GHOSTPROJ_API AClient : public ACharacter, public IInteractI
@@ -18,6 +27,8 @@ public:
 	// Sets default values for this character's properties
 	AClient();
 
+	~AClient();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -25,9 +36,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		UFastfoodComp* FastFoodComp;
 
+	UPROPERTY()
 	TArray<FFood> DesiredFood;
 
-	bool TypeOrder = FMath::RandBool();
+	//bool TypeOrder = FMath::RandBool();
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UInteractWithClient> WidgetObj;
@@ -40,9 +52,44 @@ protected:
 
 	void SetWidgetProperty();
 
-	void SetFinalMoney();
+	void ChangeClientBalance();
+
+	//class AClientAIController* AiController;
+
+	TScriptDelegate<FWeakObjectPtr> MovementCompleteDelegate;
+
+	bool ReadyToGo = false;
+
+	void GoToNewPoint(EDestination Dest);
+
+	void ActionOnMoveComplete();
+
+	EDestination CurrentDest = EDestination::None;
+
+	void BeforeDestroy();
 
 public:	
+	
+	UFUNCTION()
+		void Test(struct FAIRequestID RequestID, EPathFollowingResult::Type Result);
+
+	void SetFoodPreferences();
+
+	void CompleteOrder(bool Result);
+
+	FORCEINLINE float GetClientMoney() { return ClientMoney; };
+
+	FORCEINLINE float GetReallyPrice() {
+
+		float Amount = 0;
+
+		for (FFood Elem: DesiredFood)
+		{
+			Amount += Elem.GetFoodCost();
+		}
+
+		return Amount;
+	};
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

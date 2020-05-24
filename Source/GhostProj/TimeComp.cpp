@@ -24,7 +24,7 @@ void UTimeComp::BeginPlay()
 	
 
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle,this,&UTimeComp::TimeFlow ,0.1f , true);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle,this,&UTimeComp::TimeFlow ,1.f , true);
 	
 	
 }

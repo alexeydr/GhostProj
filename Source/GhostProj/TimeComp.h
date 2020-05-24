@@ -70,14 +70,14 @@ public:
 	// Sets default values for this component's properties
 	UTimeComp();
 
-	int32 Modifier = 10;
+	int32 Modifier = 1;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly)
-	FMyDateTime CurrentTime = FMyDateTime(1,0,0);
+	FMyDateTime CurrentTime = FMyDateTime(1,9,0);
 
 	void TimeFlow();
 

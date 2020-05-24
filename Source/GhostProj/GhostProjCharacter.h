@@ -74,17 +74,7 @@ public:
 
 	}
 
-	FORCEINLINE void RemoveItemFromInventory(FItemParams Item)
-	{
-		for (size_t i = 0; i < Inventory.Num(); i++)
-		{
-			if (Inventory[i] == Item)
-			{
-				Inventory.RemoveAt(i);
-			}
-		}
-
-	}
+	void RemoveItemFromInventory(FItemParams Item);
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UElementInShop> ClassElementInInventory;

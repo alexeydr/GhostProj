@@ -34,7 +34,7 @@ void AWork::ActionOnInteract()
 	}
 	else
 	{
-		this->CreateInfoWidget();
+		this->CreateInfoWidget("Off-Work Time");
 	}
 	
 
@@ -42,7 +42,7 @@ void AWork::ActionOnInteract()
 
 bool AWork::CheckWorkTime()
 {
-	if (MainChar->HeroTime->GetTime() > FMyDateTime(0, 6, 59) && MainChar->HeroTime->GetTime() < FMyDateTime(0, 16, 59))
+	if (MainChar->HeroTime->GetTime() > FMyDateTime(0, 7, 59) && MainChar->HeroTime->GetTime() < FMyDateTime(0, 18, 59))
 	{
 		return true;
 	}
@@ -53,7 +53,9 @@ void AWork::SpawnClient()
 {
 	if (ClientClass)
 	{
-		AClient* Client = GetWorld()->SpawnActor<AClient>(ClientClass, Spawnpoint, FRotator::ZeroRotator);
+		FActorSpawnParameters Params;
+		Params.Owner = this;
+		AClient* Client = GetWorld()->SpawnActor<AClient>(ClientClass, Spawnpoint, FRotator::ZeroRotator, Params);
 	
 	}
 }

@@ -128,6 +128,18 @@ void AGhostProjCharacter::Talk()
 	
 }
 
+void AGhostProjCharacter::RemoveItemFromInventory(FItemParams Item)
+{
+	for (int i = 0; i < Inventory.Num(); i++)
+	{
+		if (Inventory[i] == Item)
+		{
+			Inventory.RemoveAt(i);
+		}
+	}
+
+}
+
 void AGhostProjCharacter::UpdateInventory(FItemParams Params, EActionWithItem Action)
 {
 	switch (Action)
