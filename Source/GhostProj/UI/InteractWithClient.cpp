@@ -93,6 +93,7 @@ void UInteractWithClient::ClickApplyOrderButton()
 		if (AmountPrice > OwnerClient->GetReallyPrice())
 		{
 			Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->Money += AmountPrice - OwnerClient->GetReallyPrice();
+			Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->UpdateUI();
 		}
 
 		CashBox->AddMoney(OwnerClient->GetReallyPrice());

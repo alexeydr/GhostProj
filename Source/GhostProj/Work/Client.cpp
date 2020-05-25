@@ -71,7 +71,7 @@ void AClient::SetWidgetProperty()
 
 void AClient::ChangeClientBalance()
 {
-	if (FMath::RandRange(1, 100) <= -1)
+	if (FMath::RandRange(1, 100) <= 70)
 	{
 		this->ClientMoney += FMath::RandRange(0, 100);
 	}

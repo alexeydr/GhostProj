@@ -56,7 +56,7 @@ void AWork::SpawnClient()
 		FActorSpawnParameters Params;
 		Params.Owner = this;
 		AClient* Client = GetWorld()->SpawnActor<AClient>(ClientClass, Spawnpoint, FRotator::ZeroRotator, Params);
-	
+		
 	}
 }
 
