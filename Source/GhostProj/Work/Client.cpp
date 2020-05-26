@@ -126,10 +126,7 @@ void AClient::BeforeDestroy()
 	AWork* Own = Cast<AWork>(this->GetOwner());
 	if (Own)
 	{
-		if (Own->CheckWorkTime())
-		{
-			Own->SpawnClient();
-		}
+		Own->WorkProcess();
 	}
 
 	this->Destroy();
@@ -145,7 +142,7 @@ void AClient::SetFoodPreferences()
 {
 	this->ClientMoney = 0;
 	DesiredFood.Empty();
-	for (int i = 0; i < FMath::RandRange(1, 6); i++)
+	for (int i = 0; i < FMath::RandRange(3, 6); i++)
 	{
 		if (this->FastFoodComp->GetMenu().Num() > 0)
 		{

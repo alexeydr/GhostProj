@@ -367,7 +367,7 @@ void UInteractWithClient::OnTrueAnswer()
 {
 	if (AmountPrice > OwnerClient->GetClientMoney() && CashBox)
 	{
-		this->CreateAnswer("I dont have so much money", "I dont have so much money", "I dont have so much money", "I dont have so much money", "I dont have so much money");
+		this->CreateAnswer("Sorry, I want to change the order", "Sorry, I want to change the order", "Sorry, I want to change the order", "Sorry, I want to change the order", "Sorry, I want to change the order");
 		
 		OwnerClient->SetFoodPreferences();
 		UChatMessage* ChatMessageRef = CreateWidget<UChatMessage>(GetWorld(), ChatMessage);

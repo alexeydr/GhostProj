@@ -42,11 +42,36 @@ void AWork::ActionOnInteract()
 
 bool AWork::CheckWorkTime()
 {
-	if (MainChar->HeroTime->GetTime() > FMyDateTime(0, 7, 59) && MainChar->HeroTime->GetTime() < FMyDateTime(0, 18, 59))
+	if (MainChar->HeroTime->GetTime() > FMyDateTime(0, 7, 59) && MainChar->HeroTime->GetTime() < FMyDateTime(0, 10, 59))
 	{
 		return true;
 	}
 	return false;
+}
+
+void AWork::WorkProcess()
+{
+	if (this->CheckWorkTime())
+	{
+		this->SpawnClient();
+	}
+	else
+	{
+		//MainChar->HeroTime->GetTime().Days % 3 == 0
+		if (true)
+		{
+			float Sum = this->Money * 0.3f;
+			this->Money = 500.f;
+			MainChar->GetBankCard()->AddMoneyOnCard(Sum);
+			this->CreateInfoWidget("Work day completed, check your card!");
+		} 
+		else
+		{
+			this->CreateInfoWidget("Work day completed");
+		}
+		
+	}
+
 }
 
 void AWork::SpawnClient()
@@ -55,7 +80,7 @@ void AWork::SpawnClient()
 	{
 		FActorSpawnParameters Params;
 		Params.Owner = this;
-		AClient* Client = GetWorld()->SpawnActor<AClient>(ClientClass, Spawnpoint, FRotator::ZeroRotator, Params);
+		Client = GetWorld()->SpawnActor<AClient>(ClientClass, Spawnpoint, FRotator::ZeroRotator, Params);
 		
 	}
 }

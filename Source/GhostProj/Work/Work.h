@@ -52,9 +52,16 @@ public:
 
 	bool CheckWorkTime();
 
-	void SpawnClient();
+
+	void WorkProcess();
 
 protected:
+
+	class AClient* Client;
+
+
+	void SpawnClient();
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

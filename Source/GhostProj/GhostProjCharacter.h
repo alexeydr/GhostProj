@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "TimeComp.h"
+#include "BankCardComp.h"
 #include "UI\ElementInShop.h"
 #include "UI\ShopUserWidget.h"
 #include "Structs\ItemStruct.h"
@@ -67,6 +68,8 @@ public:
 	UPROPERTY()
 	UTimeComp* HeroTime;
 
+	UFUNCTION(BlueprintCallable)
+		UBankCardComp* GetBankCard() { return BankCard; };
 	
 	FORCEINLINE void AddItemToInventory(FItemParams Item)
 	{
@@ -85,6 +88,9 @@ public:
 	void UpdateInventory(FItemParams Params, EActionWithItem Action);
 
 protected:
+
+	UPROPERTY()
+		UBankCardComp* BankCard;
 
 	void ActiveInteractWidget(AActor* InteractActor);
 

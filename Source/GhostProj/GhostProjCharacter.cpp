@@ -52,6 +52,7 @@ AGhostProjCharacter::AGhostProjCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	BankCard = CreateDefaultSubobject<UBankCardComp>(FName("BankCard"));
 	HeroTime = CreateDefaultSubobject<UTimeComp>(FName("TimeComp"));
 	Sleepiness = Thirst = MentalCondition = Hunger = 50;
  	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
@@ -126,6 +127,7 @@ void AGhostProjCharacter::BeginPlay()
 void AGhostProjCharacter::Talk()
 {
 	
+	this->UpdateTime(this->HeroTime->AddTime(1, 1, 1));
 }
 
 void AGhostProjCharacter::RemoveItemFromInventory(FItemParams Item)
