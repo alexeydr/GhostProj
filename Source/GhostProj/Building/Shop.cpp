@@ -42,7 +42,7 @@ void AShop::RefreshItems(uint8 ItemsInShop)
 		{
 			FItemParams* Row = DBItems->FindRow<FItemParams>(AllRows[FMath::RandRange(0, AllRows.Num() - 1)], FString(""), false);
 			this->AddItemInShop(Row);
-			WidgetRef->CreateElements(*Row, ClassElementInShop);
+			//WidgetRef->CreateElements(*Row, ClassElementInShop);
 		}
 	}
 

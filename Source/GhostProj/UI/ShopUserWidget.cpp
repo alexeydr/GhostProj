@@ -2,6 +2,8 @@
 
 
 #include "ShopUserWidget.h"
+#include "UI\UI Items In Storage\ItemInInventory.h"
+#include "CharacterStats\InteractActor.h"
 #include "Components\VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Components/HorizontalBoxSlot.h"
@@ -9,7 +11,7 @@
 
 #define AMOUNT_ELEMENTS 5
 
-void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElementInShop> WidgetObj)
+void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseElementInStorage> WidgetObj, class AInteractActor* Act)
 {
 	if (WidgetObj && HorizontalWidgetObj)
 	{
@@ -20,15 +22,12 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 				
 				if (MainBox->GetChildIndex(HorizontBoxWidget) >= 0)
 				{
-					UElementInShop* ProductWidget = CreateWidget<UElementInShop>(GetWorld(), WidgetObj);
+					UBaseElementInStorage* ProductWidget = CreateWidget<UBaseElementInStorage>(GetWorld(), WidgetObj);
 					if (ProductWidget)
 					{
-						//UE_LOG(LogTemp, Warning, TEXT("name it: %s"),*ParamsItem.GetName());
-						//ProductWidget->SetOwnerWidget(this);
 
 						UHorizontalBoxSlot* Slot = HorizontBoxWidget->HorizonBox->AddChildToHorizontalBox(ProductWidget);
 
-						//UE_LOG(LogTemp, Warning, TEXT("name it: %s"), *Slot->GetName());
 
 						FSlateChildSize Size;
 
@@ -38,6 +37,13 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 						Slot->SetSize(Size);
 
 						ProductWidget->SetParams(ParamsItem);
+						
+
+						if (Cast<UItemInInventory>(ProductWidget))
+						{
+							Cast<UItemInInventory>(ProductWidget)->ActForInteract = Act;
+						}
+						
 
 						return;
 					}
@@ -51,11 +57,12 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UElemen
 		{
 			
 			MainBox->AddChildToVerticalBox(HorizontBoxWidget)->SetSize(FSlateChildSize(ESlateSizeRule::Automatic));
-			this->CreateElements(ParamsItem,WidgetObj);
+			this->CreateElements(ParamsItem,WidgetObj,Act);
 		}
 
 	}
 }
+
 
 void UShopUserWidget::RemoveAllElements()
 {

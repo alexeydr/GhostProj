@@ -28,15 +28,15 @@ void UFastfoodComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 }
 
-TArray<FFood> UFastfoodComp::GetMenu()
+TArray<FItemInWorkStruct> UFastfoodComp::GetMenu()
 {
-	TArray<FFood> Items;
+	TArray<FItemInWorkStruct> Items;
 
 	TArray<FName> AllRows = Menu->GetRowNames();
 
 	for (FName NameRow: AllRows)
 	{
-		FFood* Elem = Menu->FindRow<FFood>(NameRow, FString(""), false);
+		FItemInWorkStruct* Elem = Menu->FindRow<FItemInWorkStruct>(NameRow, FString(""), false);
 		
 		Items.Add(*Elem);
 

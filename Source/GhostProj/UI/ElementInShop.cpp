@@ -10,6 +10,7 @@
 #include "Components\Button.h"
 #include "Components\TextBlock.h"
 
+/*
 void UElementInShop::SynchronizeProperties()
 {
 	Super::SynchronizeProperties();
@@ -78,7 +79,6 @@ void UElementInShop::ClickAddToBasketButton()
 	}
 
 }
-
 void UElementInShop::SetParams(FItemParams Param)
 {
 	ItemImage->SetBrushFromTexture(Param.GetTexture());
@@ -89,3 +89,4 @@ void UElementInShop::SetParams(FItemParams Param)
 	}
 	ElementStat = Param;
 }
+*/

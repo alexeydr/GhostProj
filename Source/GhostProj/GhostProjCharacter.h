@@ -6,9 +6,9 @@
 #include "GameFramework/Character.h"
 #include "TimeComp.h"
 #include "BankCardComp.h"
-#include "UI\ElementInShop.h"
+#include "CharacterStats\InteractActor.h"
+#include "UI\UI Items In Storage\BaseElementInStorage.h"
 #include "UI\ShopUserWidget.h"
-#include "Structs\ItemStruct.h"
 #include "GhostProjCharacter.generated.h"
 
 
@@ -70,22 +70,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		UBankCardComp* GetBankCard() { return BankCard; };
-	
-	FORCEINLINE void AddItemToInventory(FItemParams Item)
-	{
-		this->Inventory.Add(Item);
 
-	}
-
-	void RemoveItemFromInventory(FItemParams Item);
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
-		TSubclassOf<UElementInShop> ClassElementInInventory;
+		TSubclassOf<UBaseElementInStorage> ClassElementInInventory;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UShopUserWidget> ClassInventory;
 
-	void UpdateInventory(FItemParams Params, EActionWithItem Action);
+	void UpdateInventory(AInteractActor* Act, EActionWithItem Action);
+
+	void RemoveItemFromInventory(AInteractActor* Act);
 
 protected:
 
@@ -107,7 +102,8 @@ protected:
 
 	bool FlipFlop = false;
 
-	TArray<FItemParams> Inventory;
+	UPROPERTY()
+	TArray<AInteractActor*> Inventory;
 
 	virtual void BeginPlay() override;
 

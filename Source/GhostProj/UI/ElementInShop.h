@@ -14,13 +14,13 @@ UCLASS()
 class GHOSTPROJ_API UElementInShop : public UUserWidget
 {
 	GENERATED_BODY()
-
+		/*
 protected:
 
 	FItemParams ElementStat;
 
 	void SynchronizeProperties() override;
-
+	
 	UFUNCTION()
 		void ClickDropButton();
 
@@ -62,5 +62,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidgetOptional))
 		class UTextBlock* Price;
 
-	void SetParams(FItemParams Param);
+	//void SetParams(FItemParams Param);*/
 };

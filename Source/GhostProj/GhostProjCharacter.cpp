@@ -130,11 +130,11 @@ void AGhostProjCharacter::Talk()
 	this->UpdateTime(this->HeroTime->AddTime(1, 1, 1));
 }
 
-void AGhostProjCharacter::RemoveItemFromInventory(FItemParams Item)
+void AGhostProjCharacter::RemoveItemFromInventory(AInteractActor* Act)
 {
 	for (int i = 0; i < Inventory.Num(); i++)
 	{
-		if (Inventory[i] == Item)
+		if (Inventory[i] == Act)
 		{
 			Inventory.RemoveAt(i);
 		}
@@ -142,17 +142,17 @@ void AGhostProjCharacter::RemoveItemFromInventory(FItemParams Item)
 
 }
 
-void AGhostProjCharacter::UpdateInventory(FItemParams Params, EActionWithItem Action)
+void AGhostProjCharacter::UpdateInventory(AInteractActor* Act, EActionWithItem Action)
 {
 	switch (Action)
 	{
 	case EActionWithItem::None:
 		break;
 	case EActionWithItem::Add:
-		this->AddItemToInventory(Params);
+		this->Inventory.Add(Act);
 		break;
 	case EActionWithItem::Remove:
-		this->RemoveItemFromInventory(Params);
+		this->RemoveItemFromInventory(Act);
 		break;
 	}
 
@@ -163,7 +163,7 @@ void AGhostProjCharacter::UpdateInventory(FItemParams Params, EActionWithItem Ac
 		
 		for (auto Elem : Inventory)
 		{
-			InventoryWidget->CreateElements(Elem, ClassElementInInventory);
+			InventoryWidget->CreateElements(Elem->GetItemParam(), ClassElementInInventory,Elem);
 		}
 	}
 
@@ -250,9 +250,9 @@ void AGhostProjCharacter::OpenInventory()
 			FlipFlop = true;
 			InventoryWidget->AddToViewport();
 			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
-			for (auto Elem : Inventory)
+			for (AInteractActor* Elem : Inventory)
 			{
-				InventoryWidget->CreateElements(Elem, ClassElementInInventory);
+				InventoryWidget->CreateElements(Elem->GetItemParam(), ClassElementInInventory, Elem);
 			}
 			
 		}

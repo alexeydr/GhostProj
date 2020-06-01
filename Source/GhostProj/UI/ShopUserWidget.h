@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "HorizontalBoxWidget.h"
-#include "ElementInShop.h"
+#include "UI Items In Storage\BaseElementInStorage.h"
 #include "Structs\ItemStruct.h"	
 #include "ShopUserWidget.generated.h"
 
@@ -22,7 +22,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UHorizontalBoxWidget> HorizontalWidgetObj;
 
-	void CreateElements(FItemParams ParamsItem, TSubclassOf<UElementInShop> WidgetObj);
+	void CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseElementInStorage> WidgetObj, class AInteractActor* Act);
 
 	void RemoveAllElements();
 

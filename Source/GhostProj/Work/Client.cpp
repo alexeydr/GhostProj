@@ -146,10 +146,10 @@ void AClient::SetFoodPreferences()
 	{
 		if (this->FastFoodComp->GetMenu().Num() > 0)
 		{
-			FFood TempFood = this->FastFoodComp->GetMenu()[FMath::RandRange(0, this->FastFoodComp->GetMenu().Num() - 1)];
+			FItemInWorkStruct TempFood = this->FastFoodComp->GetMenu()[FMath::RandRange(0, this->FastFoodComp->GetMenu().Num() - 1)];
 			this->DesiredFood.Add(TempFood);
 
-			this->ClientMoney += TempFood.GetFoodCost();
+			this->ClientMoney += TempFood.GetPrice();
 		}
 	}
 

@@ -5,6 +5,7 @@
 #include "Components\StaticMeshComponent.h"
 #include "Engine\World.h"
 #include "Components\StaticMeshComponent.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components\SceneComponent.h"
 #include "GhostProjCharacter.h"
 #include "Kismet\GameplayStatics.h"
@@ -27,9 +28,29 @@ void AInteractActor::BeginPlay()
 	
 }
 
+void AInteractActor::CreateInteractWidget()
+{
+	APlayerController* PC = Cast<APlayerController>(MainChar->GetController());
+	if (PC && InteractWidget)
+	{
+
+		UInteractWithItem* WidgetRef = CreateWidget<UInteractWithItem>(GetWorld(), InteractWidget);
+
+		if (WidgetRef)
+			WidgetRef->AddToViewport();
+		else
+			return;
+
+		WidgetRef->SetItem(this);
+		PC->bShowMouseCursor = true;
+		UWidgetBlueprintLibrary::SetInputMode_UIOnly(PC,WidgetRef);
+	}
+
+}
 
 
-void AInteractActor::EffectItem(FItemParams ParamForUse, AGhostProjCharacter * MainCharater)
+/*
+void AInteractActor::EffectItem()
 {
 	switch (ParamForUse.GetType())
 	{
@@ -56,7 +77,6 @@ void AInteractActor::UseItem(FItemParams ParamForUse)
 
 	if (this->ItemParam.GetNeedDestroy())
 	{
-		//MainChar->InteractActor = NULL;
 		this->Destroy();
 	}
 }
@@ -66,10 +86,9 @@ void AInteractActor::TakeItem()
 	if (this->ItemParam.GetNeedDestroy())
 	{
 		MainChar->UpdateInventory(this->ItemParam,EActionWithItem::Add);
-		//MainChar->InteractActor = NULL;
 		this->Destroy();
 	}
-}
+}*/
 
 void AInteractActor::ActionOnInteract()
 {

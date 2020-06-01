@@ -6,8 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "UI\HorizontalBoxWidget.h"
 #include "UI\ChatMessage.h"
-#include "UI\ElementInShop.h"
-#include "Work/FastfoodComp.h"
+#include "Structs\ItemInWorkStruct.h"
+#include "UI\UI Items In Storage\ItemInWork.h"
 #include "InteractWithClient.generated.h"
 
 /**
@@ -58,7 +58,7 @@ protected:
 		TSubclassOf<UHorizontalBoxWidget> HorizontalWidgetObj;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
-		TSubclassOf<UElementInShop> MenuElem;
+		TSubclassOf<UItemInWork> MenuElem;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UChatMessage> ChatMessage;
@@ -133,7 +133,7 @@ protected:
 
 public:
 
-	void ChangeTextInDesiredFood(TArray<FFood> ClientDesire);
+	void ChangeTextInDesiredFood(TArray<FItemInWorkStruct> ClientDesire);
 
 	FORCEINLINE void AddMistake(int CountMistakes = 1) {
 		if (CounterMistakes + CountMistakes >= 3)
@@ -151,6 +151,6 @@ public:
 	void ClickOnValInBasket(const FString Name,int Val);
 
 
-	void FormMenu(UFastfoodComp* FastFoodComp);
+	void FormMenu(class UFastfoodComp* FastFoodComp);
 	
 };

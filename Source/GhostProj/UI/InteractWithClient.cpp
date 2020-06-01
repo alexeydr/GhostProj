@@ -158,7 +158,7 @@ void UInteractWithClient::AIAnswerOnPlayerMessage(FString Message)
 	if (this->CheckHarrasmentInChat(Message))
 	{	
 		UChatMessage* ChatMessageRef = CreateWidget<UChatMessage>(GetWorld(), ChatMessage);
-		FString Answer = this->GetRandomBotAnswer("I will fuck you fagg!!!","Your mom is gay","STFU DOG!!!!","Ok stfu","NOOOOICE!");
+		FString Answer = this->GetRandomBotAnswer("...","...","...","...","...");
 		ChatMessageRef->SetReplic("Client", Answer);
 		ChatScrollBox->AddChild(ChatMessageRef);
 		return;
@@ -432,15 +432,12 @@ void UInteractWithClient::FormMenu(UFastfoodComp * FastFoodComp)
 			}
 			if (MenuElem)
 			{
-				UElementInShop* Item = CreateWidget<UElementInShop>(GetWorld(), MenuElem);
-				
-				FItemParams ParamItem(Elem.GetFoodName(),EStats::None, 0);
-				ParamItem.AddTexture(Elem.GetFoodTexture());
-				ParamItem.AddPrice(Elem.GetFoodCost());
-
-				Item->SetParams(ParamItem);
+				UItemInWork* Item = CreateWidget<UItemInWork>(GetWorld(), MenuElem);
 
 				Item->SetOwnerWidget(this);
+				
+				Item->SetParams(Elem);
+
 
 				if (HorizontBoxRef)
 				{
@@ -493,9 +490,9 @@ void UInteractWithClient::Punishment(float Percent, FString Reason)
 
 bool UInteractWithClient::CheckOrder()
 {
-	for (FFood Elem: OwnerClient->GetDesiredFood())
+	for (FItemInWorkStruct Elem: OwnerClient->GetDesiredFood())
 	{
-		if (!this->CurrentOrderTextBlock->GetText().ToString().Contains(Elem.GetFoodName()))
+		if (!this->CurrentOrderTextBlock->GetText().ToString().Contains(Elem.GetName()))
 		{
 			return false;
 		}
@@ -503,14 +500,14 @@ bool UInteractWithClient::CheckOrder()
 	return true;
 }
 
-void UInteractWithClient::ChangeTextInDesiredFood(TArray<FFood> ClientDesire)
+void UInteractWithClient::ChangeTextInDesiredFood(TArray<FItemInWorkStruct> ClientDesire)
 {
 	if (this->DesiredFoodTextBlock)
 	{
 		FString Name;
-		for (FFood Elem : ClientDesire)
+		for (FItemInWorkStruct Elem : ClientDesire)
 		{
-			Name += " " + Elem.GetFoodName();
+			Name += " " + Elem.GetName();
 		}
 		this->DesiredFoodTextBlock->SetText(FText::FromString(Name));
 

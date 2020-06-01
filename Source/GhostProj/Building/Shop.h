@@ -49,6 +49,6 @@ public:
 
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
-		TSubclassOf<UElementInShop> ClassElementInShop;
+		TSubclassOf<UBaseElementInStorage> ClassElementInShop;
 
 };

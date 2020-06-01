@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "FoodStruct.h"
+#include "Structs\ItemInWorkStruct.h"
 #include "FastfoodComp.generated.h"
 
 
@@ -28,7 +28,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	TArray<FFood> GetMenu();
+	TArray<FItemInWorkStruct> GetMenu();
 
 
 };

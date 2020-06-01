@@ -37,7 +37,7 @@ protected:
 		UFastfoodComp* FastFoodComp;
 
 	UPROPERTY()
-	TArray<FFood> DesiredFood;
+	TArray<FItemInWorkStruct> DesiredFood;
 
 	//bool TypeOrder = FMath::RandBool();
 
@@ -83,9 +83,9 @@ public:
 
 		float Amount = 0;
 
-		for (FFood Elem: DesiredFood)
+		for (FItemInWorkStruct Elem: DesiredFood)
 		{
-			Amount += Elem.GetFoodCost();
+			Amount += Elem.GetPrice();
 		}
 
 		return Amount;
@@ -97,7 +97,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FORCEINLINE TArray<FFood> GetDesiredFood() { return DesiredFood;  };
+	FORCEINLINE TArray<FItemInWorkStruct> GetDesiredFood() { return DesiredFood;  };
 
 	void ActionOnInteract();
 

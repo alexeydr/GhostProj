@@ -10,6 +10,7 @@
 /**
  * 
  */
+/*
 UENUM()
 enum class EStats : uint8
 {
@@ -17,41 +18,43 @@ enum class EStats : uint8
 	Sleepiness 	UMETA(DisplayName = "Sleepiness"),
 	Hunger	UMETA(DisplayName = "Hunger"),
 	Thirst	UMETA(DisplayName = "Thirst")
-};
+};*/
 
 
-USTRUCT(BlueprintType)
+USTRUCT()
 struct FItemParams : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
-private:
+protected:
 
 	UPROPERTY(EditAnywhere)
 		FString Name;
-	UPROPERTY(EditAnywhere)
-		EStats TypeActor;
-	UPROPERTY(EditAnywhere)
-		int Value;
+	//UPROPERTY(EditAnywhere)
+		//EStats TypeActor;
+	//UPROPERTY(EditAnywhere)
+		//int Value;
 	UPROPERTY(EditAnywhere)
 		class UTexture2D* Texture;
-	UPROPERTY(EditAnywhere)
-		UClass* ItemClass;
-	UPROPERTY(EditAnywhere)
-		class UStaticMesh* Mesh;
-	UPROPERTY(EditAnywhere)
-		int Price;
-	UPROPERTY(EditAnywhere)
-		bool NeedDestroy;
+	//UPROPERTY(EditAnywhere)
+		//UClass* ItemClass;
+	//UPROPERTY(EditAnywhere)
+		//class UStaticMesh* Mesh;
+//	UPROPERTY(EditAnywhere)
+	//	int Price;
+	//UPROPERTY(EditAnywhere)
+		//bool NeedDestroy;
 public:
 	
-	FItemParams(FString NewName = "", EStats NewTypeActor = EStats::None, int NewValue = 0)
+	FItemParams(FString NewName = "", class UTexture2D* Texture = nullptr)
 	{
 		this->Name = NewName;
-		this->TypeActor = NewTypeActor;
-		this->Value = NewValue;
+		this->Texture = Texture;
+
 	}
-	void AddClass(UClass* Cl)
+
+
+	/*void AddClass(UClass* Cl)
 	{
 		this->ItemClass = Cl;
 	}
@@ -59,19 +62,27 @@ public:
 	void AddMesh(class UStaticMesh* M)
 	{
 		this->Mesh = M;
+	}*/
+
+	void AddTexture(class UTexture2D* Texture2D)
+	{
+		this->Texture = Texture2D;
 	}
 
-	void AddDestroySettings(bool N)
-	{
-		this->NeedDestroy = N;
-	}
 
 	void AddName(FString N)
 	{
 		this->Name = N;
 	}
 
-	void AddType(EStats TA)
+
+	/*void AddDestroySettings(bool N)
+	{
+		this->NeedDestroy = N;
+	}*/
+
+
+	/*void AddType(EStats TA)
 	{
 		this->TypeActor = TA;
 	}
@@ -79,24 +90,16 @@ public:
 	void AddValue(int V)
 	{
 		this->Value = V;
-	}
+	}*/
 
-	void AddTexture(class UTexture2D* Texture2D)
-	{
-		this->Texture = Texture2D;
-	}
 
-	void AddPrice(int Pr)
+	/*void AddPrice(int Pr)
 	{
 		this->Price = Pr;
-	}
+	}*/
 
-	FString GetName()
-	{
-		return this->Name;
-	}
 
-	EStats GetType()
+	/*EStats GetType()
 	{
 		return this->TypeActor;
 	}
@@ -106,10 +109,6 @@ public:
 		return this->Value;
 	}
 
-	class UTexture2D* GetTexture()
-	{
-		return this->Texture;
-	}
 
 	int GetPrice()
 	{
@@ -119,9 +118,19 @@ public:
 	bool GetNeedDestroy()
 	{
 		return this->NeedDestroy;
+	}*/
+
+	FString GetName()
+	{
+		return this->Name;
 	}
 
-	UClass* GetClass()
+	class UTexture2D* GetTexture()
+	{
+		return this->Texture;
+	}
+
+	/*UClass* GetClass()
 	{
 		return this->ItemClass;
 	}
@@ -129,15 +138,12 @@ public:
 	class UStaticMesh* GetMesh()
 	{
 		return this->Mesh;
-	}
+	}*/
 
 	bool operator ==(FItemParams Param)
 	{
 		if (this->GetName() == Param.GetName() && 
-			this->GetPrice() == Param.GetPrice() && 
-			this->GetValue() == Param.GetValue() && 
-			this->GetTexture() == Param.GetTexture() && 
-			this->GetType() == Param.GetType())
+			this->GetTexture() == Param.GetTexture())
 		{
 			return true;
 		}
