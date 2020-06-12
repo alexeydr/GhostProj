@@ -28,18 +28,24 @@ struct FInteractItemStruct : public FItemParams
 
 protected:
 
+	UPROPERTY(EditAnywhere)
+		float InteractionTime;
 
 	UPROPERTY(EditAnywhere)
 		TMap<EStats, float> Effects;
 
+
 public:
 
-	FInteractItemStruct(FString Name = "", class UTexture2D* Texture = nullptr, TMap<EStats, float> Effects = {})
+	FInteractItemStruct(FString Name = "", class UTexture2D* Texture = nullptr, TMap<EStats, float> Effects = {}, float InteractionTime = 0.f)
 		:FItemParams(Name, Texture)
 	{
+		this->InteractionTime = InteractionTime;
 		this->Effects = Effects;
 	}
 
+
+	FORCEINLINE float GetInteractionTime() { return InteractionTime; };
 
 	FORCEINLINE TMap<EStats, float> GetEffect() { return Effects; };
 

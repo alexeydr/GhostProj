@@ -37,9 +37,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		class UStaticMeshComponent* StaticMesh;
 
+public:
+
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UInteractWithItem> InteractWidget;
-public:
  
 	FORCEINLINE void SetItemParam(FItemParams NewParam) { this->ItemParam = NewParam; };
 	

@@ -27,6 +27,11 @@ protected:
 
 public:
 
+
+	FInteractItemStruct GetItemStruct() { return ItemStruct; };
+
+	void ModernizeObject(ASmallInteractActor* &Act, struct FInteractActorInShop* Params, class AGhostProjCharacter* Char, TSubclassOf<AInteractActor> Class);
+
 	virtual void UseItem();
 
 	virtual void CreateItem();

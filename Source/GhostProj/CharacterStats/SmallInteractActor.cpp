@@ -3,6 +3,7 @@
 
 #include "SmallInteractActor.h"
 #include "GhostProjCharacter.h"
+#include "Structs\InteractActorInShop.h"
 #include "Components\StaticMeshComponent.h"
 #include "Kismet\GameplayStatics.h"
 
@@ -11,16 +12,16 @@ void ASmallInteractActor::TakeItem()
 	Super::TakeItem();
 
 
-	auto Test = NewObject<ASmallInteractActor>(MainChar,ASmallInteractActor::StaticClass());
+	auto Item = NewObject<ASmallInteractActor>(MainChar,ASmallInteractActor::StaticClass());
 	
-	if (Test)
+	if (Item)
 	{
-		Test->SetItemParam(this->ItemParam);
-		Test->ItemStruct = this->ItemStruct;
-		Test->StaticMesh = this->StaticMesh;
-		Test->MainChar = this->MainChar;
-		Test->ClassForSpawn = this->ClassForSpawn;
-		MainChar->UpdateInventory(Test, EActionWithItem::Add);
+		Item->SetItemParam(this->ItemParam);
+		Item->ItemStruct = this->ItemStruct;
+		Item->StaticMesh = this->StaticMesh;
+		Item->MainChar = this->MainChar;
+		Item->ClassForSpawn = this->ClassForSpawn;
+		MainChar->UpdateInventory(Item, EActionWithItem::Add);
 	}
 
 	this->Destroy();
@@ -33,6 +34,15 @@ void ASmallInteractActor::BeginPlay()
 
 	this->ItemParam = FItemParams(ItemStruct.GetName(), ItemStruct.GetTexture());
 
+}
+
+void ASmallInteractActor::ModernizeObject(ASmallInteractActor *& Act, FInteractActorInShop * Params,AGhostProjCharacter* Char, TSubclassOf<AInteractActor> Class)
+{
+	Act->ClassForSpawn = Class;
+	Act->SetItemParam(*Params);
+	Act->ItemStruct = *Params;
+	Act->MainChar = Char;
+	Act->StaticMesh->SetStaticMesh(Params->GetMesh());
 }
 
 void ASmallInteractActor::UseItem()
@@ -49,10 +59,10 @@ void ASmallInteractActor::UseItem()
 			MainChar->Sleepiness = FMath::Clamp(MainChar->Sleepiness + Elem.Value, 1.f, 100.f);
 			break;
 		case EStats::Hunger:
-			MainChar->Hunger += Elem.Value;
+			MainChar->Hunger += FMath::Clamp(MainChar->Hunger + Elem.Value, 1.f, 100.f);
 			break;
 		case EStats::Thirst:
-			MainChar->Thirst += Elem.Value;
+			MainChar->Thirst += FMath::Clamp(MainChar->Thirst + Elem.Value, 1.f, 100.f);
 			break;
 		default:
 			break;
@@ -60,6 +70,7 @@ void ASmallInteractActor::UseItem()
 
 	}	
 	
+	MainChar->UpdateTime(MainChar->HeroTime->AddTime(0,0,ItemStruct.GetInteractionTime()));
 	MainChar->UpdateUI();
 	MainChar->UpdateInventory(this, EActionWithItem::Remove);
 	
@@ -76,9 +87,8 @@ void ASmallInteractActor::CreateItem()
 
 	Params.Owner = MainChar;
 
-	auto Item = GetWorld()->SpawnActor<ASmallInteractActor>(ClassForSpawn , MainChar->GetActorLocation() + FVector(100, 0, 0), FRotator::ZeroRotator, Params);
+	ASmallInteractActor* Item = MainChar->GetWorld()->SpawnActor<ASmallInteractActor>(ClassForSpawn, MainChar->GetActorLocation() + FVector(100, 0, 0), FRotator::ZeroRotator, Params);
 	
-
 	if (Item)
 	{
 		Item->SetItemParam(this->ItemParam);
@@ -89,8 +99,7 @@ void ASmallInteractActor::CreateItem()
 
 		MainChar->UpdateInventory(this, EActionWithItem::Remove);
 
-		UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Item->GetName());
 	}
-
+	
 
 }

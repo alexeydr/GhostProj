@@ -22,9 +22,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UHorizontalBoxWidget> HorizontalWidgetObj;
 
-	void CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseElementInStorage> WidgetObj, class AInteractActor* Act);
+	void CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseElementInStorage> WidgetObj, class AInteractActor* Act, struct FInteractActorInShop* StructActInShop = nullptr);
 
 	void RemoveAllElements();
+
+
 
 protected:
 

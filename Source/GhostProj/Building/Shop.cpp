@@ -2,6 +2,8 @@
 
 
 #include "Shop.h"
+#include "CharacterStats\SmallInteractActor.h"
+#include "Structs\InteractActorInShop.h"
 #include "Structs\ItemStruct.h"
 #include "Kismet\GameplayStatics.h"
 
@@ -38,11 +40,29 @@ void AShop::RefreshItems(uint8 ItemsInShop)
 
 	if (WidgetRef)
 	{
-		for (size_t i = 0; i < ItemsInShop; i++)
+		
+		for (int i = 0; i < ItemsInShop; i++)
 		{
-			FItemParams* Row = DBItems->FindRow<FItemParams>(AllRows[FMath::RandRange(0, AllRows.Num() - 1)], FString(""), false);
-			this->AddItemInShop(Row);
-			//WidgetRef->CreateElements(*Row, ClassElementInShop);
+			if (ActForSpawn)
+			{
+				FInteractActorInShop* RowInShop = DBItems->FindRow<FInteractActorInShop>(AllRows[FMath::RandRange(0, AllRows.Num() - 1)], FString(""), false);
+				auto Act = ActForSpawn.GetDefaultObject();
+				if (RowInShop && Act)
+				{
+					if (ASmallInteractActor* Small = Cast<ASmallInteractActor>(Act))
+					{
+							Small->ModernizeObject(Small, RowInShop, Cast<AGhostProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)),ActForSpawn);
+							Small->InteractWidget = this->InteractWithItemWidget;
+							this->AddItemInShop(RowInShop);
+							WidgetRef->CreateElements(*RowInShop, ClassElementInShop, Small, RowInShop);
+
+					
+					}
+
+				}
+
+			}
+			
 		}
 	}
 

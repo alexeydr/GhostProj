@@ -4,6 +4,8 @@
 #include "ShopUserWidget.h"
 #include "UI\UI Items In Storage\ItemInInventory.h"
 #include "CharacterStats\InteractActor.h"
+#include "Structs\InteractActorInShop.h"
+#include "UI\UI Items In Storage\ItemInShop.h"
 #include "Components\VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Components/HorizontalBoxSlot.h"
@@ -11,7 +13,7 @@
 
 #define AMOUNT_ELEMENTS 5
 
-void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseElementInStorage> WidgetObj, class AInteractActor* Act)
+void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseElementInStorage> WidgetObj, class AInteractActor* Act, FInteractActorInShop* StructActInShop)
 {
 	if (WidgetObj && HorizontalWidgetObj)
 	{
@@ -38,14 +40,27 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseEl
 
 						ProductWidget->SetParams(ParamsItem);
 						
-
-						if (Cast<UItemInInventory>(ProductWidget))
+						
+						if (UItemInShop* ItemInShop = Cast<UItemInShop>(ProductWidget))
 						{
-							Cast<UItemInInventory>(ProductWidget)->ActForInteract = Act;
+							if (StructActInShop)
+							{
+								ItemInShop->SetParams(*StructActInShop);
+								ItemInShop->SetObj(Act);
+
+								return;
+							}
+						}
+						if (UItemInInventory* ItemInInv = Cast<UItemInInventory>(ProductWidget))
+						{
+							ItemInInv->ActForInteract = Act;
+
+							return;
 						}
 						
-
+						ProductWidget->RemoveFromParent();
 						return;
+
 					}
 				}
 			}

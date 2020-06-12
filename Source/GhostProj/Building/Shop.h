@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "ActorWithTrigger.h"
+#include "UI\InteractWithItem.h"
+#include "CharacterStats\InteractActor.h"
 #include "UI\ShopUserWidget.h"
 #include "Shop.generated.h"
 
@@ -16,6 +18,12 @@ class GHOSTPROJ_API AShop : public AActorWithTrigger
 	GENERATED_BODY()
 	
 protected:
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<UInteractWithItem> InteractWithItemWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AInteractActor> ActForSpawn;
 
 	TArray<struct FItemParams*> Items;
 

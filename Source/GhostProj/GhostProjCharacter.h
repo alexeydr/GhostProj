@@ -55,7 +55,7 @@ public:
 	float MentalCondition;
 
 	UPROPERTY(BlueprintReadOnly, Category = Stats)
-	float Money;
+	float Money = 100;
 
 	class AActorWithTrigger* ActWithTrig;
 	
