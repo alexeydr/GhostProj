@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "CharacterStats\InteractActor.h"
+#include "Structs\InteractItemStruct.h"
 #include "CookingMetod.h"
 #include "ItemStruct.h"
 #include "UObject/NoExportTypes.h"
@@ -21,32 +23,42 @@ struct FIngredients
 public:
 
 	UPROPERTY(EditAnywhere)
-		FString Name;
+		FString IngredientName;
 	UPROPERTY(EditAnywhere)
-		TEnumAsByte<ECookingMetods> Metod;
+		TEnumAsByte<ECookingMetods>	CoockingMetod;
 
 };
 
 USTRUCT(BlueprintType)
-struct FRecipeStruct : public FItemParams
+struct FRecipeStruct : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
 private:
+	UPROPERTY(EditAnywhere)
+		TArray<FInteractItemStruct> Result;
 
 	UPROPERTY(EditAnywhere)
 		TArray<FIngredients> Ingredients;
+	
+	UPROPERTY(EditAnywhere)
+		float CookingTime;
+
 public:
 
+	FORCEINLINE TArray<FInteractItemStruct> GetResult() { return Result; };
+
+	FORCEINLINE float GetCookingTime() { return CookingTime; };
+
 	
-	bool operator ==(FRecipeStruct Param)
+	/*bool operator ==(FRecipeStruct Param)
 	{
-		if (true)
+		if (this->Result == Param.Name && this->GetTexture() == Param.GetTexture())
 		{
 			return true;
 		}
 		return false;
-	}
+	}*/
 
 };
 

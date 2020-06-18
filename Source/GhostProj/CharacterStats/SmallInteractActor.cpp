@@ -3,6 +3,7 @@
 
 #include "SmallInteractActor.h"
 #include "GhostProjCharacter.h"
+#include "Components\StaticMeshComponent.h"
 #include "Structs\InteractActorInShop.h"
 #include "Components\StaticMeshComponent.h"
 #include "Kismet\GameplayStatics.h"
@@ -34,6 +35,11 @@ void ASmallInteractActor::BeginPlay()
 
 	this->ItemParam = FItemParams(ItemStruct.GetName(), ItemStruct.GetTexture());
 
+}
+
+void ASmallInteractActor::SetStaticMeshInActor(UStaticMesh * Mesh)
+{
+	this->StaticMesh->SetStaticMesh(Mesh);
 }
 
 void ASmallInteractActor::ModernizeObject(ASmallInteractActor *& Act, FInteractActorInShop * Params,AGhostProjCharacter* Char, TSubclassOf<AInteractActor> Class)

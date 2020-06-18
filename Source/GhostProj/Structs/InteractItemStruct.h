@@ -34,16 +34,21 @@ protected:
 	UPROPERTY(EditAnywhere)
 		TMap<EStats, float> Effects;
 
+	UPROPERTY(EditAnywhere)
+		class UStaticMesh* StaticMesh;
+
 
 public:
 
-	FInteractItemStruct(FString Name = "", class UTexture2D* Texture = nullptr, TMap<EStats, float> Effects = {}, float InteractionTime = 0.f)
+	FInteractItemStruct(FString Name = "", class UTexture2D* Texture = nullptr, TMap<EStats, float> Effects = {}, float InteractionTime = 0.f, class UStaticMesh* Mesh = nullptr)
 		:FItemParams(Name, Texture)
 	{
+		this->StaticMesh = Mesh;
 		this->InteractionTime = InteractionTime;
 		this->Effects = Effects;
 	}
 
+	FORCEINLINE class UStaticMesh* GetStaticMesh() { return StaticMesh; };
 
 	FORCEINLINE float GetInteractionTime() { return InteractionTime; };
 

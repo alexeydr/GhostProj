@@ -27,6 +27,13 @@ protected:
 
 public:
 
+	void SetClassForSpawn(TSubclassOf<ASmallInteractActor> Class) { this->ClassForSpawn = Class; };
+
+	void SetItemStruct(FInteractItemStruct NewStruct) { this->ItemStruct = NewStruct; };
+
+	void SetStaticMeshInActor(class UStaticMesh* Mesh);
+
+	void SetMainChar(class AGhostProjCharacter* Char) { this->MainChar = Char; };
 
 	FInteractItemStruct GetItemStruct() { return ItemStruct; };
 
