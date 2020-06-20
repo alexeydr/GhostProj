@@ -25,6 +25,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		FString IngredientName;
 	UPROPERTY(EditAnywhere)
+		int Count;
+	UPROPERTY(EditAnywhere)
 		TEnumAsByte<ECookingMetods>	CoockingMetod;
 
 };
@@ -45,6 +47,8 @@ private:
 		float CookingTime;
 
 public:
+
+	FORCEINLINE TArray<FIngredients> GetIngredients() { return Ingredients; };
 
 	FORCEINLINE TArray<FInteractItemStruct> GetResult() { return Result; };
 

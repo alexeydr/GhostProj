@@ -16,6 +16,10 @@ class GHOSTPROJ_API URecipeElement : public UUserWidget
 
 protected:
 
+	void SetButtonEnabled(class AGhostProjCharacter* MainChar);
+
+	void SetWidgetToolTipText(struct FRecipeStruct* RecipeElement);
+
 	void SetWigdetStats(struct FRecipeStruct* RecipeElement);
 
 	class ACooking* OwnerActor;
@@ -33,6 +37,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 		class UButton* TakeCooking;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UToolTipWidgetForCoocking> ToolTipWidgetClass;
 
 	UFUNCTION()
 		void OnTakeCookingClicked();

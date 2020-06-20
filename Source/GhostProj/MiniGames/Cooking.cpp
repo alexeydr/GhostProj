@@ -48,11 +48,10 @@ void ACooking::SetCurrentFood(FRecipeStruct * Struct)
 			if (!this->FoodElement)
 			{
 				this->FoodElement = Struct;
-
-				FTimerHandle CompleteFoodTimerHandle;
 				GetWorld()->GetTimerManager().SetTimer(CompleteFoodTimerHandle, this, &ACooking::StartCooking, this->FoodElement->GetCookingTime(), false);
-				RecipeWidgetRef->SetRemainingTime(CompleteFoodTimerHandle);
+				
 			}
+			RecipeWidgetRef->SetRemainingTime(CompleteFoodTimerHandle);
 			
 			MainWidgetRef->SetCookingFood(RecipeWidgetRef);
 			RecipeWidgetRef->SetWidgetParam(this->FoodElement, this, true);
@@ -73,13 +72,14 @@ void ACooking::TakeFood(FInteractItemStruct * Struct)
 		Item->SetClassForSpawn(this->SpawnItemClass);
 
 		MainChar->UpdateInventory(Item, EActionWithItem::Add);
+		this->FoodElement = nullptr;
 	}
 
 }
 
 void ACooking::StartCooking()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Food complete"));
+
 }
 
 void ACooking::SetRecipeElements()

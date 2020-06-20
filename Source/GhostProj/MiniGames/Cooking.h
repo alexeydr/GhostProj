@@ -36,6 +36,7 @@ protected:
 	UFUNCTION()
 		void StartCooking();
 
+	FTimerHandle CompleteFoodTimerHandle;
 
 	/** устанавливает все доступные рецепты */
 	void SetRecipeElements();

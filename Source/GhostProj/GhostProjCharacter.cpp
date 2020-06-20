@@ -130,19 +130,27 @@ void AGhostProjCharacter::Talk()
 	this->UpdateTime(this->HeroTime->AddTime(1, 1, 1));
 }
 
-void AGhostProjCharacter::RemoveItemFromInventory(AInteractActor* Act)
+void AGhostProjCharacter::RemoveItemFromInventory(AInteractActor* Act, int ItemNumber)
 {
-	for (int i = 0; i < Inventory.Num(); i++)
+
+	if (ItemNumber != -1 && Act)
 	{
-		if (Inventory[i] == Act)
+		for (int i = 0; i < Inventory.Num(); i++)
 		{
-			Inventory.RemoveAt(i);
+			if (Inventory[i] == Act)
+			{
+				Inventory.RemoveAt(i);
+			}
 		}
 	}
-
+	else
+	{
+		Inventory.RemoveAt(ItemNumber);
+	}
+	
 }
 
-void AGhostProjCharacter::UpdateInventory(AInteractActor* Act, EActionWithItem Action)
+void AGhostProjCharacter::UpdateInventory(AInteractActor* Act, EActionWithItem Action, int ItemNumber)
 {
 	switch (Action)
 	{
@@ -152,7 +160,7 @@ void AGhostProjCharacter::UpdateInventory(AInteractActor* Act, EActionWithItem A
 		this->Inventory.Add(Act);
 		break;
 	case EActionWithItem::Remove:
-		this->RemoveItemFromInventory(Act);
+		this->RemoveItemFromInventory(Act,ItemNumber);
 		break;
 	}
 

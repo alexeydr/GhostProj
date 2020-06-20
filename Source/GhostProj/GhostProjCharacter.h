@@ -78,11 +78,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 		TSubclassOf<UShopUserWidget> ClassInventory;
 
-	void UpdateInventory(AInteractActor* Act, EActionWithItem Action);
+	void UpdateInventory(AInteractActor* Act, EActionWithItem Action, int ItemNumber = -1);
 
-	void RemoveItemFromInventory(AInteractActor* Act);
+
+	FORCEINLINE TArray<AInteractActor*> GetInventory() { return this->Inventory; };
 
 protected:
+
+	void RemoveItemFromInventory(AInteractActor* Act, int ItemNumber = -1);
 
 	UPROPERTY()
 		UBankCardComp* BankCard;
