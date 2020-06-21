@@ -7,16 +7,21 @@
 
 void UToolTipWidgetForCoocking::SetResult(FString Result)
 {
-	
+	{
+		UTextBlock* TextBlock = NewObject<UTextBlock>(UTextBlock::StaticClass());
+
+		if (TextBlock && IngredientsBox)
+		{
+			TextBlock->SetText(FText::FromString(Result));
+			ResultBox->AddChildToVerticalBox(TextBlock);
+		}
+	}
 }
 
 void UToolTipWidgetForCoocking::SetIngredients(FString Ing)
 {
 	UTextBlock* TextBlock = NewObject<UTextBlock>(UTextBlock::StaticClass());
-	if (!TextBlock)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Ne sozdan"));
-	}
+
 	if (TextBlock && IngredientsBox)
 	{
 		TextBlock->SetText(FText::FromString(Ing));

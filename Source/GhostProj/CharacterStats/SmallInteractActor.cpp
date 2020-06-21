@@ -12,20 +12,23 @@ void ASmallInteractActor::TakeItem()
 {
 	Super::TakeItem();
 
-
-	auto Item = NewObject<ASmallInteractActor>(MainChar,ASmallInteractActor::StaticClass());
-	
-	if (Item)
+	if (GetWorld())
 	{
-		Item->SetItemParam(this->ItemParam);
-		Item->ItemStruct = this->ItemStruct;
-		Item->StaticMesh = this->StaticMesh;
-		Item->MainChar = this->MainChar;
-		Item->ClassForSpawn = this->ClassForSpawn;
-		MainChar->UpdateInventory(Item, EActionWithItem::Add);
+		ASmallInteractActor* Item = NewObject<ASmallInteractActor>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0), ASmallInteractActor::StaticClass());
+
+		if (Item)
+		{
+			Item->SetItemParam(this->ItemParam);
+			Item->ItemStruct = this->ItemStruct;
+			Item->StaticMesh = this->StaticMesh;
+			Item->MainChar = this->MainChar;
+			Item->ClassForSpawn = this->ClassForSpawn;
+			MainChar->UpdateInventory(Item, EActionWithItem::Add);
+
+			this->Destroy();
+		}
 	}
 
-	this->Destroy();
 
 }
 

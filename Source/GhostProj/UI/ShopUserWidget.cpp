@@ -35,7 +35,7 @@ void UShopUserWidget::CreateElements(FItemParams ParamsItem, TSubclassOf<UBaseEl
 
 						Size.SizeRule = ESlateSizeRule::Automatic;
 
-						Slot->SetPadding(FMargin(30, 30, 30, 30));
+						Slot->SetPadding(FMargin(10, 10, 10, 10));
 						Slot->SetSize(Size);
 
 						ProductWidget->SetParams(ParamsItem);

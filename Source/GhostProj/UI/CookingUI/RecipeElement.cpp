@@ -158,6 +158,12 @@ void URecipeElement::SetWidgetToolTipText(FRecipeStruct* RecipeElement)
 				FString ResultText = FString::FromInt(Ing.Count) +" "+ Ing.IngredientName;
 				ToolTipWidgetRef->SetIngredients(ResultText);
 			}
+			for (auto Res : RecipeElement->GetResult())
+			{
+				FString ResultText = Res.GetName() + " ";
+				ToolTipWidgetRef->SetResult(ResultText);
+			}
+
 			this->SetToolTip(ToolTipWidgetRef);
 		}
 	}
